@@ -12,30 +12,19 @@ cat ~/.ssh/koreactwo_key.pub
 cat <<EOF >> ~/.ssh/config
 
 # 특정 프로젝트 전용 설정
-Host koreactwo
-  HostName github.com
+Host koreactwo # 별칭
+  HostName github.com # 실제 주소
   User git
-  IdentityFile ~/.ssh/koreactwo_key
+  IdentityFile ~/.ssh/koreactwo_key # 별칭에 적용할 키
   IdentitiesOnly yes  # 이 줄이 핵심입니다. 에이전트의 다른 키를 무시합니다.
 EOF
 ```
 - ssh config 설정 : 별칭을 넣어서 저장소 별로 키를 지정한다
 
 ```
-git remote set-url origin git@koreactwo:koreactwo/koreactwo.git
+git remote set-url origin git@koreactwo:koreactwo/koreactwo.github.io.git
 
-git config --list
+git config --list --local
 
 ssh -T git@koreactwo
-
-# 현재 설정된 주소 확인
-git remote -v
-
-# SSH 주소로 강제 변경 (별칭을 사용하지 않는 경우)
-git remote set-url origin git@github.com:koreactwo/koreactwo.github.io.git
-```
-
-```
-git config --local user.name "koreactwo"
-git config --local user.email "koreactwo@gmail.com"
 ```
