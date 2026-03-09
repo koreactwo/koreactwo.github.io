@@ -26,5 +26,6 @@ git remote set-url origin git@koreactwo:koreactwo/koreactwo.github.io.git
 
 git config --list --local
 
+# 주소를 별칭으로해야 지정된 키를 사용한다
 ssh -T git@koreactwo
 ```
