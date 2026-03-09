@@ -29,3 +29,24 @@ git config --list --local
 # 주소를 별칭으로해야 지정된 키를 사용한다
 ssh -T git@koreactwo
 ```
+
+### react 설정
+- 
+```
+docker run -it --rm -v $(pwd):/app -w /app -p 5173:5173 node:lts bash
+```
+- 컨테이너 attach 
+- 이후
+```
+npm create vite@latest .
+npm create vite@latest . -- --template react-ts
+npm install
+npm run dev
+
+```
+- 만약 페이지가 안열리면 package.json 파일에서 스크립트 부분을 아래처럼 수정한다 . 
+```
+"scripts": {
+    "dev": "vite --host 0.0.0.0", 
+}
+```
