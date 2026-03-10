@@ -50,3 +50,25 @@ npm run dev
     "dev": "vite --host 0.0.0.0", 
 }
 ```
+
+
+### 배포 및 Pages 연동
+- vite.config.ts 에서 build 객체 추가 , 아웃풋을 docs로 지정
+```
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  build:{
+    // 빌드 결과물이 생성될 디렉터리 지정
+    outDir: 'docs',
+    // 기존 docs 디렉터리가 있다면 삭제 후 재생성 (기본값 true)
+    emptyOutDir: true,
+  },
+})
+```
+- npm run build
+- ![alt text](image-1.png)
+- 깃허브 Pages Root 변경 / -> /docs
