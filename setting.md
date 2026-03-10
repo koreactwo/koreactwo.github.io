@@ -71,4 +71,4 @@ export default defineConfig({
 ```
 - npm run build
 - ![alt text](image-1.png)
-- 깃허브 Pages Root 변경 / -> /docs
+- 깃허브 Pages Root 변경 / -> /docs 그리고 save 버튼 클릭 
