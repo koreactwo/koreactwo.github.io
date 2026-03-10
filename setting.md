@@ -72,3 +72,56 @@ export default defineConfig({
 - npm run build
 - ![alt text](image-1.png)
 - 깃허브 Pages Root 변경 / -> /docs 그리고 save 버튼 클릭 
+- 강력 새로고침: 나중에 또 안 바뀐다 싶으면 Ctrl + Shift + R
+
+
+### css 모듈 추가
+- Tailwind CSS and daisyUI (Vite + React + ts)
+```
+# 모듈 설치 -D 옵션으로 package.json의 devDependencies에 추가
+npm install -D tailwindcss@latest @tailwindcss/vite@latest daisyui@latest
+
+```
+- vite.config.ts 수정
+```
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite'; // 추가
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [
+    react(),
+    tailwindcss() //추가
+  ],
+})
+
+```
+
+- src/index.css 수정
+```
+# 최상단에
+@import "tailwindcss"; //추가
+@plugin "daisyui"; //추가
+```
+
+- vscode 확장앱 설치 Tailwind CSS IntelliSense
+```
+# 테스트 코드 (클래스에 btn)
+<button className='btn'>button</button>
+```
+
+### daisyUI 테마 지정하기
+- index.css
+```
+@plugin "daisyui" {
+   themes: light --default, dark --prefersdark, cupcake;
+}
+```
+
+- index.html 수정
+```
+<html data-theme="cupcake">
+</html>
+
+```
