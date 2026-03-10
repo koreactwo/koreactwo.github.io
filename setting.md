@@ -125,3 +125,52 @@ export default defineConfig({
 </html>
 
 ```
+
+
+### pages actions 로 자동 배포하기
+- .github/workflows/delpoy.yml 파일 생성
+```
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"] # 메인 브랜치에 푸시될 때 실행
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          # 빌드 결과물이 생성되는 폴더명 (Vite는 dist, CRA는 build)
+          path: './docs'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+```
