@@ -1,16 +1,29 @@
-import { useState } from 'react'
-
+// import { useState } from 'react'
+import  TodoList from './pages/TodoList.tsx';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-    <div className='bg-base-200 flex flex-col items-center'>
-      <button className='btn bg-primary-content rounded-full hover:bg-secondary-content  ' 
-        onClick={() => setCount(count + 1)} >test {count}</button>
-    
-    </div>
+      <div className="navbar bg-base-100 shadow-sm">
+        <div className="flex-none">
+          <a href='' className="btn btn-square btn-ghost">
+            <img src="/images/home.svg"/>
+          </a>
+        </div>
+        <div className="flex-1">
+          <p className="ml-4 text-xl font-bold">SIXTICK</p>
+        </div>
+        <div className="flex-none">
+          <button className="btn btn-square btn-ghost">
+            <img src = "/images/bars.svg"/>
+          </button>
+        </div>
+      </div>
+
+      <TodoList className='w-160 mx-auto'/>
+
+
     </>
   )
 }
