@@ -1,5 +1,5 @@
 import React, { useReducer, useState, useRef, useEffect } from "react";
-import { Xmark } from "../Icons";
+import { XMark} from "../Icons";
 
 interface Todo {
   id: number;
@@ -47,10 +47,10 @@ const todoReducer = (state: Todo[], action: todoAction): Todo[] => {
 
 export const TodoItem = ( { todo, dispatch } : { todo: Todo, dispatch: React.Dispatch<todoAction> }) => {
     return (
-        <div className="flex items-center justify-between p-4 border-b">
+        <div className="flex items-center justify-between p-4 hover:border-b">
             <span>{todo.text}</span>
             <button onClick={() => dispatch({ type: 'DELETE_TODO', payload: { id: todo.id } })}>
-                <Xmark className="hover:text-red-500 size-6 hover:cursor-pointer"/>
+                <XMark className="sixtick-btn btn-xs opacity-30 hover:opacity-100"/>
             </button>
         </div>
     );
@@ -74,18 +74,18 @@ const TodoInput = ( { dispatch } : dispatchProps ) => {
       };
   return (
     <>
-    <form className="flex" onSubmit={handleSubmit}>
+    <form className="flex w-full items-center" onSubmit={handleSubmit}>
       <input
         ref={inputRef} // ref 연결
         type="text"
         placeholder="할 일을 입력하세요"
-        className="input input-bordered w-64 max-w-xs"
+        className="input input-bordered flex-1 ml-2 "
         value={todo.text}
         onChange={(e) => setTodo({ ...todo, text: e.target.value })}
         required
         autoFocus
       />
-      <button type="submit" className="btn btn-primary ml-2">
+      <button type="submit" className="btn btn-primary mx-2 ">
         추가
       </button>
       </form>
