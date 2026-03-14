@@ -18,3 +18,15 @@ docker run -it --rm -v $(pwd):/app -w /app -p 5173:5173 node:lts bash
   - 좋아요 기능, 누르면 ip 저장, ip 카운트
   - supabase 연결
   - 길게 누르면 ip 삭제, ip 카운트
+
+
+```
+
+# 윈도우 폴더 연결, 마운트 방식
+sudo apt update && sudo apt install cifs-utils -y
+sudo mkdir -p /mnt/win
+sudo mount -t cifs //192.168.0.15/samba /mnt/win -o user=Everyone,password=,uid=$(id -u),gid=$(id -g),iocharset=utf8
+df -h
+cp -r ~/source/koreactwo.github.io/docs /mnt/win/
+sudo umount /mnt/win
+```
