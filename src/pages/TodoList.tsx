@@ -1,6 +1,12 @@
 import React, { useReducer, useState, useRef, useEffect } from "react";
-import { XMark} from "../Icons";
+import { XMark, CheckMark} from "../Icons";
 
+/**
+ * 할일 
+ * @param id 저장하고 불러왔을때 충돌방지를 위해 Date.now() 를 쓴다
+ * @param text 할일 내용
+ * @param completed 완료 유무 , 쓰지않음. 그냥 삭제 해버려 ㅋㅋ
+ */
 interface Todo {
   id: number;
   text: string;
@@ -45,16 +51,20 @@ const todoReducer = (state: Todo[], action: todoAction): Todo[] => {
 }
 
 
-export const TodoItem = ( { todo, dispatch } : { todo: Todo, dispatch: React.Dispatch<todoAction> }) => {
+export const TodoItem = React.memo( ( { todo, dispatch } : { todo: Todo, dispatch: React.Dispatch<todoAction> }) => {
+    console.log(`${todo.id} ${todo.text} render`);
     return (
-        <div className="flex items-center justify-between p-4 hover:border-b">
-            <span>{todo.text}</span>
+        <div className="flex items-center justify-between p-4 hover:border-b hover:font-bold">
+            <p className="flex-1 flex items-center gap-2" onClick={() => dispatch({ type: 'TOGGLE_TODO', payload: { id: todo.id } })}>
+                <span className="opacity-50">{todo.completed && <CheckMark/>}</span>
+                <span className={todo.completed ? "opacity-50" : ""}>{todo.text}</span> 
+            </p>
             <button onClick={() => dispatch({ type: 'DELETE_TODO', payload: { id: todo.id } })}>
                 <XMark className="sixtick-btn btn-xs opacity-30 hover:opacity-100"/>
             </button>
         </div>
     );
-}
+});
 
 
 const TodoInput = ( { dispatch } : dispatchProps ) => {
@@ -94,10 +104,13 @@ const TodoInput = ( { dispatch } : dispatchProps ) => {
 };
 
 const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
-    const [todos, dispatch] = useReducer(todoReducer, []
-        ,() => {const saved = localStorage.getItem("my-todo-list");
-        return saved ? JSON.parse(saved) : [];}
-    ); 
+    // const [todos, dispatch] = useReducer(todoReducer, []
+    //     ,() => {const saved = localStorage.getItem("my-todo-list");
+    //     return saved ? JSON.parse(saved) : [];
+    // });  
+    // 세번째 인자가 초기화 함수이긴하나, 초기 데이터를 넣을때 초기화를 같이 해버린다
+    const [todos, dispatch] = useReducer(todoReducer, JSON.parse(localStorage.getItem("my-todo-list") || "[]"));
+
     
     useEffect(() => {
         // 처음 빈 배열일 때 저장되는 것을 방지하려면 조건문을 추가할 수도 있습니다.

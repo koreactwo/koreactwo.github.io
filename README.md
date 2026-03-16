@@ -13,6 +13,9 @@ docker run -it --rm -v $(pwd):/app -w /app -p 5173:5173 node:lts bash
 ## TODO LIST
 - react-markdown 모듈 적용하여 md 파일 컨버터
 - 레이아웃 구성 및 메뉴 기능
+  - 바텀 광고
+  - 컨텐츠만 스크롤
+  - 상단 네비 고정
 - md 문서 폴더 메뉴 구성파일 스크립트 제작
 - 프로필 페이지 만들기
   - 좋아요 기능, 누르면 ip 저장, ip 카운트
