@@ -70,8 +70,11 @@ import LazyComponent = lazy(() => import('./LazyComponent'));
 - 이 값을 받는 컴포넌트는 렌더링을 즉각 하지 않고 완화된(__빠른 변화를 건너뜀__) 렌더링을 해서 앱에 부담을 주지 않는다.
 - 빠르게 입력되는 값을 가공하여 보여주는 컴포넌트에 적절
 ```
+const [value, setValue] = useState(initialValue);
 // value가 자주 변경되는 상태인데 이걸 받는 쪽이 연산이 무거워야 할때
 const deferredValue = useDeferredValue(value);
+
+<defferComponent value={deferredValue} />
 ```
 
 ## useTransition
