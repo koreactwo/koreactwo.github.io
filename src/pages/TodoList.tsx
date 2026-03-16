@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useRef, useEffect, type JSX } from "react";
+import React, { useReducer, useState, useRef, useEffect } from "react";
 import { XMark, CheckMark} from "../Icons";
 
 /**
@@ -51,7 +51,7 @@ const todoReducer = (state: Todo[], action: todoAction): Todo[] => {
 }
 
 
-export const TodoItem = React.memo( ( { todo, dispatch } : { todo: Todo, dispatch: React.Dispatch<todoAction> }) => {
+const TodoItem = React.memo( ( { todo, dispatch } : { todo: Todo, dispatch: React.Dispatch<todoAction> }) => {
 
     console.log(`${todo.id} ${todo.text} render`); // 디버깅 로그 
 
@@ -69,8 +69,9 @@ export const TodoItem = React.memo( ( { todo, dispatch } : { todo: Todo, dispatc
 });
 
 
-const TodoInput = ( { dispatch } : dispatchProps ) => {
+const TodoInput = React.memo(( { dispatch } : dispatchProps ) => {
     // const id = Date.now();
+    console.log('TodoInput render');
     const [todo, setTodo] = useState<Todo>({
         id: 0,
         text: '',
@@ -103,7 +104,7 @@ const TodoInput = ( { dispatch } : dispatchProps ) => {
       </form>
     </>
   );
-};
+});
 
 const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
     // const [todos, dispatch] = useReducer(todoReducer, []
@@ -139,7 +140,8 @@ const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
                 {
                     (() => {
                         const res = [];
-                        for (let i = todos.length - 1; i > 0 ; i--) { 
+                        for (let i = todos.length - 1; i >= 0 ; i--) { 
+                            console.log(i);
                             res.push(<TodoItem todo={todos[i]} dispatch={dispatch} />)
                         }   
                         return res;
