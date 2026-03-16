@@ -1,4 +1,4 @@
-import React, { useReducer, useState, useRef, useEffect } from "react";
+import React, { useReducer, useState, useRef, useEffect, type JSX } from "react";
 import { XMark, CheckMark} from "../Icons";
 
 /**
@@ -128,9 +128,23 @@ const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
             <p className="text-right w-full text-gray-400 text-xs font-light mb-2 ">(로컬스토리지 사용량 : {(JSON.stringify(todos).length * 2 /1024).toFixed(2)}KBytes)</p>
             <TodoInput dispatch={dispatch} />
             <div className="w-full px-6 overflow-y-auto flex-1 min-h-0">
-                {todos.map((todo: Todo) => (
+                {/* {todos.map((todo: Todo) => (
                     <TodoItem todo={todo} dispatch={dispatch} key={todo.id.toString()} />
-                ))}
+                ))} */}
+                {/* {
+                    [...todos].reverse().map((todo: Todo)=> (
+                    <TodoItem todo={todo} dispatch={dispatch} key={todo.id.toString()} />
+                    ));
+                } */}
+                {
+                    (() => {
+                        const res = [];
+                        for (let i = todos.length - 1; i > 0 ; i--) { 
+                            res.push(<TodoItem todo={todos[i]} dispatch={dispatch} />)
+                        }   
+                        return res;
+                    })()
+                }
             </div>
         </div>
         </Component>

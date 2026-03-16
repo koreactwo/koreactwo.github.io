@@ -180,4 +180,20 @@ jobs:
 ### terser 모듈, 로그 코드 제거
 ```
 npm add -D terser
+
+
+// vite.config.ts
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  build: {
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // 모든 콘솔 로그 제거
+        drop_debugger: true, // debugger 구문 제거
+      },
+    },
+  },
+})
 ```
