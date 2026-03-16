@@ -174,3 +174,10 @@ jobs:
         uses: actions/deploy-pages@v4
 
 ```
+
+
+
+### terser 모듈, 로그 코드 제거
+```
+npm add -D terser
+```

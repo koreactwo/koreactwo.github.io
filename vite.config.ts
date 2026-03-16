@@ -11,5 +11,12 @@ export default defineConfig({
     outDir: 'docs',
     // 기존 docs 디렉터리가 있다면 삭제 후 재생성 (기본값 true)
     emptyOutDir: true,
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true, // 모든 콘솔 로그 제거
+        drop_debugger: true, // debugger 구문 제거
+      },
+    },
   },
 })

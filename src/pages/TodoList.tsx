@@ -52,7 +52,9 @@ const todoReducer = (state: Todo[], action: todoAction): Todo[] => {
 
 
 export const TodoItem = React.memo( ( { todo, dispatch } : { todo: Todo, dispatch: React.Dispatch<todoAction> }) => {
-    console.log(`${todo.id} ${todo.text} render`);
+
+    console.log(`${todo.id} ${todo.text} render`); // 디버깅 로그 
+
     return (
         <div className="flex items-center justify-between p-4 hover:border-b hover:font-bold">
             <p className="flex-1 flex items-center gap-2" onClick={() => dispatch({ type: 'TOGGLE_TODO', payload: { id: todo.id } })}>
@@ -121,11 +123,11 @@ const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
 
     return (
         <Component {...props}>
-        <div className="flex flex-col items-center ">
+        <div className="flex flex-col items-center h-full">
             <h1 className="text-2xl font-bold m-4 ">할 일 목록 </h1>
             <p className="text-right w-full text-gray-400 text-xs font-light mb-2 ">(로컬스토리지 사용량 : {(JSON.stringify(todos).length * 2 /1024).toFixed(2)}KBytes)</p>
             <TodoInput dispatch={dispatch} />
-            <div className="w-full px-6">
+            <div className="w-full px-6 overflow-y-auto flex-1 min-h-0">
                 {todos.map((todo: Todo) => (
                     <TodoItem todo={todo} dispatch={dispatch} key={todo.id.toString()} />
                 ))}
