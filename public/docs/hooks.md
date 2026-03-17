@@ -1,4 +1,6 @@
 # React Hooks
+- 커스텀 훅 + 인터페이스(규격) + 컴포넌트
+- "MVC의 철학(분리)을 계승하되, 흐름(단방향)은 더 엄격하게 통제한다."
 
 ## useState
 - 기본적인 상태 관리
@@ -94,7 +96,8 @@ startTransition(() => setValue(newValue)); // 지연 반영
 ```
 
 ## useContext
-
+- 전역 상태 관리... 좀 번잡해서 구린데?
+- 대안 : Zustand
 
 ## useLayoutEffect
 ## useImperativeHandle
