@@ -12,7 +12,7 @@ npm install react-router
 - path : string, 경로지정
 - element : 컴포넌트, 렌더링할 컴포넌트
 - index : boolean, 부모 라우트의 기본 페이지 지정 여부
-- children : 컴포넌트, 중첩 라우트를 정의할때 사용
+- children : 컴포넌트, Outlet 으로 자식 컴포넌트를 렌더링할 수 있음. (부모, 자식 컴포넌트를 합치는 개념)
 - errorElement : 컴포넌트, 오류발생시 렌더링할 컴포넌트
 - handle : object, 라우트에 메타데이터를 전달할 때 사용
 - lazy : function, 동적임포트를 통해 코드 분할 구현
