@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Outlet, Link } from "react-router";
 import { HomeMark, BarsMark } from "./Icons";
 
 export const Layout = () => {
@@ -8,7 +8,9 @@ export const Layout = () => {
          <div className="navbar bg-base-100 shadow-sm">
            <div className="flex-none">
              <button className=" btn btn-circle btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform">
-               <HomeMark />
+                <Link to='/'>
+                    <HomeMark />
+                </Link>
              </button>
            </div>
            <div className="flex-1">
@@ -16,7 +18,11 @@ export const Layout = () => {
            </div>
            <div className="flex-none">
              <button className=" btn btn-circle btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform">
-               <BarsMark />
+                <Link to='/todolist'>
+                {/* 메뉴 구성해야함  */}
+                    <BarsMark />
+                </Link>
+                
              </button>
            </div>
          </div>
