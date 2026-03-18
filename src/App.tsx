@@ -1,20 +1,22 @@
 // import { useState } from 'react'
 import { Routes, Route } from 'react-router';
 
+import { Layout } from './Layout.tsx';
 import TodoList from './pages/TodoList.tsx';
 import Home from './pages/Home.tsx';
 import Profile from './pages/Profile.tsx';
 
-import { HomeMark, BarsMark } from "./Icons";
 import "./App.css";
 
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/profile' element={<Profile />} />
-      <Route path='/todolist' element={<TodoList />} />
-      <Route path='*' element={<Home />} />
+      <Route element={<Layout />}>
+        <Route path='/' element={<Home />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/todolist' element={<TodoList className='mx-auto max-w-160 w-full h-full' />} />
+        <Route path='*' element={<Home />} />
+      </Route>
     </Routes>
   );
 }

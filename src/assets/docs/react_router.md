@@ -16,3 +16,36 @@ npm install react-router
 - errorElement : 컴포넌트, 오류발생시 렌더링할 컴포넌트
 - handle : object, 라우트에 메타데이터를 전달할 때 사용
 - lazy : function, 동적임포트를 통해 코드 분할 구현
+
+```
+import { Routes, Route } from 'react-router';
+
+function App() {
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route path='/' element={<Home />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/todolist' element={<TodoList className='mx-auto max-w-160 w-full h-full' />} />
+        <Route path='*' element={<Home />} />
+      </Route>
+    </Routes>
+  );
+}
+
+```
+
+## Outlet 컴포넌트
+- Layout 컴포넌트 예시
+```
+import { Outlet } from "react-router";
+// Outlet 위치에 path에 따라 Layout 자식 컴포넌트가 렌더링됨.
+function Layout() {
+    return (
+        <Header/>
+        <Outlet />
+        <Footer/
+    );
+}
+
+```
