@@ -99,6 +99,8 @@ startTransition(() => setValue(newValue)); // 지연 반영
 - 전역 상태 관리... 좀 번잡해서 구린데?
 - 대안 : Zustand
 
+
+
 ## useLayoutEffect
 ## useImperativeHandle
 ## useDebugValue

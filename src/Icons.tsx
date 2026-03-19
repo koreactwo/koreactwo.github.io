@@ -20,3 +20,44 @@ export const CheckMark = ({className = "size-6"}) => (<svg xmlns="http://www.w3.
 
 
 
+export const LogoMark = ({className = "size-6 stroke-primary"}) =>  {
+  // 1. 데이터만 따로 관리 (좌표와 딜레이)
+  const lines = [
+    { x1: 21, y1: 12, x2: 17, y2: 12 }, // 1. 우측 (3시)
+  { x1: 17, y1: 19, x2: 15, y2: 16 }, // 2. 우하 (5시)
+  { x1: 8,  y1: 19, x2: 10, y2: 16 }, // 3. 좌하 (7시)
+  { x1: 4,  y1: 12, x2: 8,  y2: 12 }, // 4. 좌측 (9시)
+  { x1: 8,  y1: 5,  x2: 10, y2: 8  }, // 5. 좌상 (11시)
+  { x1: 17, y1: 5,  x2: 15, y2: 8  }  // 6. 우상 (1시)
+    // { x1: 21, y1: 12, x2: 17, y2: 12},
+    // { x1: 17, y1: 5,  x2: 15, y2: 8},
+    // { x1: 8,  y1: 5,  x2: 10, y2: 8},
+    // { x1: 4,  y1: 12, x2: 8,  y2: 12},
+    // { x1: 8,  y1: 19, x2: 10, y2: 16},
+    // { x1: 17, y1: 19, x2: 15, y2: 16},
+  ];
+  const dur = 1;
+
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      strokeWidth="2"
+      strokeLinecap="round"
+    >
+      {lines.map((l, i) => (
+        <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} opacity="0">
+          <animate
+            attributeName="opacity"
+            values="1; 0; 0"
+            dur={dur + "s"}
+            repeatCount="indefinite"
+            begin={ dur / 6 * i  + "s"}
+          />
+        </line>
+      ))}
+    </svg>
+  );
+};

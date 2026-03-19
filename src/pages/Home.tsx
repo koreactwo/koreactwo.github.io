@@ -1,7 +1,23 @@
+import { LogoMark } from "../Icons";
+
 const Home = () => {
     return (
-        <div>home page</div> 
-        );
+        <>
+            <div>home page
+                {/* <SequentialLoadingBar /> */}
+            </div>
+
+            <LogoMark className="size-60 stroke-primary" />
+
+
+           
+
+
+
+
+
+        </>
+    );
 
 }
 

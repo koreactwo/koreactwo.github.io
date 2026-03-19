@@ -1,0 +1,22 @@
+<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" 
+     style="width: 24px; height: 24px;" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+    
+    <line x1="21" y1="12" x2="17" y2="12">
+        <!-- <animate attributeName="opacity" values="0; 1; 0" dur="2.4s" repeatCount="indefinite" begin="0s" /> -->
+    </line>
+    <line x1="17" y1="5" x2="15" y2="8">
+        <!-- <animate attributeName="opacity" values="0; 1; 0" dur="2.4s" repeatCount="indefinite" begin="0.4s" /> -->
+    </line>
+    <line x1="8" y1="5" x2="10" y2="8">
+        <!-- <animate attributeName="opacity" values="0; 1; 0" dur="2.4s" repeatCount="indefinite" begin="0.8s" /> -->
+    </line>
+    <line x1="4" y1="12" x2="8" y2="12">
+        <!-- <animate attributeName="opacity" values="0; 1; 0" dur="2.4s" repeatCount="indefinite" begin="1.2s" /> -->
+    </line>
+    <line x1="8" y1="19" x2="10" y2="16">
+        <!-- <animate attributeName="opacity" values="0; 1; 0" dur="2.4s" repeatCount="indefinite" begin="1.6s" /> -->
+    </line>
+    <line x1="17" y1="19" x2="15" y2="16">
+        <!-- <animate attributeName="opacity" values="0; 1; 0" dur="2.4s" repeatCount="indefinite" begin="2s" /> -->
+    </line>
+</svg>

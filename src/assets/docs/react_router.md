@@ -65,3 +65,29 @@ function Layout() {
     - 주소를 example.com/#/login 처럼 중간에 #을 넣는 방식입니다.
 
     - 브라우저는 # 뒤의 내용은 서버에 요청하지 않기 때문에 새로고침해도 404 에러가 절대 나지 않습니다. 가장 확실하지만 주소가 조금 지저분해집니다.
+
+
+## useParams
+- 동적 세그먼트
+- 클라이언트용
+```
+<Route path='team/:id/group/:groupId' element={<Team />} />
+
+'/team/1/group/2'
+
+import { useParams } from 'react-router';
+
+const params = useParams();
+
+<h1>Team Id: {params.id}</h1>
+<h1>Group Id: {params.groupId}</h1>
+
+
+```
+- 옵셔널 세그먼트
+```
+<Route path='team/:id/group?/:groupId?' element={<Team />} />
+
+'/team/1/group/2' or '/team/1'
+
+```
