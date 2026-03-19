@@ -1,4 +1,4 @@
-import { LogoMark } from "../Icons";
+import { LoadingMark } from "../Icons";
 
 const Home = () => {
     return (
@@ -7,7 +7,7 @@ const Home = () => {
                 {/* <SequentialLoadingBar /> */}
             </div>
 
-            <LogoMark className="size-60 stroke-primary" />
+            <LoadingMark className="size-60 text-primary" />
 
 
            

@@ -20,7 +20,7 @@ export const CheckMark = ({className = "size-6"}) => (<svg xmlns="http://www.w3.
 
 
 
-export const LogoMark = ({className = "size-6 stroke-primary"}) =>  {
+export const LoadingMark = ({className = "size-6 text-primary"}) =>  {
   // 1. 데이터만 따로 관리 (좌표와 딜레이)
   const lines = [
     { x1: 21, y1: 12, x2: 17, y2: 12 }, // 1. 우측 (3시)
@@ -46,6 +46,7 @@ export const LogoMark = ({className = "size-6 stroke-primary"}) =>  {
       className={className}
       strokeWidth="2"
       strokeLinecap="round"
+      stroke="currentColor"
     >
       {lines.map((l, i) => (
         <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} opacity="0">

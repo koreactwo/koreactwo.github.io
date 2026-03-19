@@ -4,10 +4,9 @@
 <!-- <a href="https://koreactwo.github.io" target="_blank">github pages static web site</a> -->
 <!-- 빌드과정에서 태그 속성이 없어지나보네.  -->
 
+- 컨테이너 연결
 ```
-# 컨테이너 연결
 docker run -it --rm -v $(pwd):/app -w /app -p 5173:5173 node:lts bash
-
 ```
 
 ## TODO LIST

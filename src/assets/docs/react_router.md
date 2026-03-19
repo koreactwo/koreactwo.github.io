@@ -50,6 +50,25 @@ function Layout() {
 
 ```
 
+## Link, NavLink 컴포넌트
+- 주소와 컴포넌트를 연결한다
+- Link : 경로이동만 수행
+- NavLink : 경로이동 수행, 현재경로와 같으면 isActive 속성 활성화됨
+```
+<Link to='/'>홈</Link>
+<NavLink to='/' className={({ isActive }) => (isActive ? 'active' : undefined)}> 홈 </NavLink>
+```
+
+## useNavigate 훅
+- 프로그래밍 방식 경로이동
+- 로그아웃 되면 홈으로 이동한다던지 할때 씀
+```
+const navigate = useNavigate();
+navigate('/profile');
+```
+
+
+
 ## 깃허브 404 에러대책
 
 - GitHub Pages는 서버 설정을 직접 건드릴 수 없습니다. 그래서 두 가지 우회 방법을 씁니다.
