@@ -1,9 +1,12 @@
-version: '3.8'
+# 컴포즈2에서는 버전 안써도됨
+# version: '3.8'
 # docker-compose.yml 파일
 services:
   # 'app'이라는 이름의 서비스를 정의합니다.
   app:
     image: oven/bun:latest
+    # 현재 실행 중인 사용자의 UID와 GID를 컨테이너에 전달
+    user: "1000:1000"
     container_name: bun_hono
     # -v $(pwd):/app -w /app 옵션과 동일
     volumes:
@@ -12,7 +15,7 @@ services:
     # -p 5173:5173 옵션과 동일
     ports:
       - "5173:5173"
-      - "3000:3000" # 나중에 Hono 서버용 포트 미리 뚫어두기
+      - "8787:8787" # 나중에 Hono 서버용 포트 미리 뚫어두기
     # -it 옵션과 동일 (컨테이너가 종료되지 않게 유지)
     stdin_open: true
     tty: true
