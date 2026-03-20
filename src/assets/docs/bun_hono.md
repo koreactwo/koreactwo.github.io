@@ -11,7 +11,7 @@ docker pull oven/bun:latest
 
 - bun 컨테이너 실행
 ```
-docker run -it --rm --name bun_hono --user "1000:1000" -v $(pwd):/app -w /app -p 5173:5173 -p 8787:8787 oven/bun:latest bash
+docker run -it --rm --name bun_hono --user "1000:1000" -v $(pwd):/app -w /app -p 5173:5173 -p 3000:3000 oven/bun:latest bash
 ```
 
 - compose 실행
@@ -26,6 +26,7 @@ docker compose down
 
 
 # Hono
+- https://hono.dev/docs/getting-started/basic
 - bun 컨테이너 안에서 실행
 ```
 bun create hono@latest api_server
