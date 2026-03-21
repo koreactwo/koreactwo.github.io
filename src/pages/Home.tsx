@@ -1,5 +1,6 @@
 import { LoadingMark } from "../Icons";
 import { useState, useEffect } from "react";
+import Login from "./login";
 
 const Home = () => {
     const [count, setCount ] = useState(0);
@@ -57,7 +58,7 @@ const Home = () => {
             {/* <LoadingMark className="size-60 text-primary" /> */}
 
 
-           
+            <Login/>
 
 
 

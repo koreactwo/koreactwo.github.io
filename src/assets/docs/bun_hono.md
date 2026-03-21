@@ -20,6 +20,7 @@ docker compose up -d
 docker compose exec app bash
 # 기타 명령줄
 docker compose up
+docker compose ps
 docker compose logs -f
 docker compose down
 ```
