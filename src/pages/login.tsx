@@ -23,7 +23,7 @@ const Login = () => {
   return (
     <>
       <h1 className="text-3xl font-bold">user: {user?.email}</h1>
-      <h1 className="text-3xl font-bold">redirect: {import.meta.env.VITE_REDIRCET_URL}</h1>
+      <h1 className="text-3xl font-bold">redirect: {import.meta.env.VITE_REDIRECT_URL}</h1>
       <button className="btn" onClick={supabaseAuth.signInWithGoogle}>로그인</button>
       <button className="btn" onClick={supabaseAuth.signOut}>로그아웃</button>
       <button className="btn" onClick={supabaseAuth.getUser}>getUser</button>
