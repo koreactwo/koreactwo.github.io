@@ -1,7 +1,7 @@
 import { createClient, type User } from "@supabase/supabase-js";
 
 
-const redirect = import.meta.env.DEV ? 'http://localhost:5173/' : 'https://koreactwo.github.io/';  // TODO 나중에 전역 으로?
+const redirect = import.meta.env.DEV ? 'http://localhost:5173' : 'https://koreactwo.github.io';  // TODO 나중에 전역 으로?
 console.log('redirect: ', redirect);
 const supabaseUrl = 'https://lyrubjkoihtrgcbfqhjd.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5cnViamtvaWh0cmdjYmZxaGpkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwNDk0NTIsImV4cCI6MjA4OTYyNTQ1Mn0.0XGb4sXUCsuyAzMeJ5K2lSOnHSDqKdP_2gU7bKEVKY4';
