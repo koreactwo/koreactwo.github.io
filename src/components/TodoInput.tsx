@@ -1,25 +1,25 @@
-import { useState } from "react";
+// import { useState } from "react";
 
-// 타입 , 액션, 뷰
-
-
-type todo = {
-    id: number;
-    text: string;
-    completed: boolean;
-}
+// // 타입 , 액션, 뷰
 
 
-const TodoInput = () => {
-    const [todo, setTodo] = useState<todo | null>(null);
+// type todo = {
+//     id: number;
+//     text: string;
+//     completed: boolean;
+// }
 
-    return (
-        <>
-            <form>
-                <input type="text" placeholder="할 일을 입력하세요" />
-                <button type="submit">수정</button>
-                <button type="submit">추가</button>
-            </form>
-        </>
-    );
-}
+
+// const TodoInput = () => {
+//     const [todo, setTodo] = useState<todo | null>(null);
+
+//     return (
+//         <>
+//             <form>
+//                 <input type="text" placeholder="할 일을 입력하세요" />
+//                 <button type="submit">수정</button>
+//                 <button type="submit">추가</button>
+//             </form>
+//         </>
+//     );
+// }
