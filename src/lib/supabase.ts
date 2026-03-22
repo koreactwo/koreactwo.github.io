@@ -25,8 +25,9 @@ const signInWithGoogle = async () => {
 
 const signOut = async () => {
     const { error } = await supabase.auth.signOut();
-
+    
     if (error) console.error('로그아웃 에러:', error.message);
+    console.log('로그아웃');
 };
 
 const getUser = async () => {

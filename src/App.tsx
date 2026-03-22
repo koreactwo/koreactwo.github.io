@@ -14,7 +14,7 @@ function App() {
       <Route element={<Layout />}>
         <Route path='/' element={<Home />} />
         <Route path='/profile' element={<Profile />} />
-        <Route path='/todolist' element={<TodoList className='mx-auto max-w-160 w-full h-full' />} />
+        <Route path='/todolist' element={<TodoList />} />
         <Route path='*' element={<Home />} />
       </Route>
     </Routes>

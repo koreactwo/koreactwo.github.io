@@ -1,6 +1,6 @@
 import { LoadingMark } from "../Icons";
 import { useState, useEffect } from "react";
-import Login from "./login";
+import Login from "./Login";
 
 const Home = () => {
     const [count, setCount ] = useState(0);
@@ -47,18 +47,9 @@ const Home = () => {
 
     return (
         <>
-            <div>home page
-                {/* <SequentialLoadingBar /> */}
+            <div className="flex items-center justify-center h-screen bg-sky-100">
+                sixtick home
             </div>
-            <div>
-                <button className="btn" onClick={incrementCount}>post</button>
-                <button className="btn" onClick={getCount}> {loading ? <LoadingMark/> : "get"} {count}</button>
-            </div>
-
-            {/* <LoadingMark className="size-60 text-primary" /> */}
-
-
-            <Login/>
 
 
 
