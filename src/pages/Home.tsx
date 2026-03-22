@@ -47,9 +47,11 @@ const Home = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center h-screen bg-sky-100">
-                sixtick home
+            <div className="flex flex-col items-center justify-center h-screen bg-sky-100">
+                <p className="">sixtick home</p>
+                <p className="">20260322 1910</p>
             </div>
+            
 
 
 
