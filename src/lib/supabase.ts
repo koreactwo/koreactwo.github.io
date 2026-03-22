@@ -1,7 +1,8 @@
 import { createClient, type User } from "@supabase/supabase-js";
 
 
-const redirect = 'http://localhost:5173';
+const redirect = import.meta.env.DEV ? 'http://localhost:5173/' : 'https://koreactwo.github.io/';  // TODO 나중에 전역 으로?
+console.log('redirect: ', redirect);
 
 export const supabase = createClient(import.meta.env.VITE_SUPABASE_URL, import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY);
 export type { User };
