@@ -1,17 +1,17 @@
 import { Outlet, Link, type LinkProps } from "react-router";
 import { HomeMark, BarsMark } from "./Icons";
 import Login from "./pages/Login";
-import { supabase, supabaseAuth, type User} from "./lib/supabase";
+import { supabase, supabaseAuth, type User } from "./lib/supabase";
 import { useState, useEffect } from "react";
 
 
 
 
-const MyLink = ({to, children, className, ...props}: LinkProps) => {
+const MyLink = ({ to, children, className, ...props }: LinkProps) => {
   const blur = () => {
-  if (document.activeElement instanceof HTMLElement) {
-        document.activeElement.blur();
-      }
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
   }
   return (
     <Link to={to} onClick={blur} className={`p-2 ${className}`} {...props}>{children}</Link>
@@ -21,78 +21,79 @@ const MyLink = ({to, children, className, ...props}: LinkProps) => {
 
 
 export const Layout = () => {
-  const [user, setUser] = useState<User | null>( null );
-  
-    useEffect(() => {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
     // 현재 세션 확인 및 상태 업데이트
     supabase.auth.getUser().then(({ data: { user } }) => {
+      console.log(user?.email?.split('@')[0]);
       setUser(user);
     });
-  
+
     // 인증 상태 변경 감지 (로그인/로그아웃 등)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null);
     });
-  
+
     return () => subscription.unsubscribe(); // 클린업
   }, []);
 
-    return (
+  return (
     <>
-       <div className='flex flex-col h-screen mx-auto max-w-160 w-full h-full'> {/* root  */}
-         <div className="navbar bg-base-100 shadow-sm">
-           <div className="flex-none">
-             <button className=" btn btn-circle btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform">
-                <Link to='/'>
-                    <HomeMark />
-                </Link>
-             </button>
-           </div>
-           <div className="flex-1">
-             <p className="ml-4 text-xl font-bold">SIXTICK</p>
-           </div>
-           <div className="flex-none">
-            <Login user={user}/>
+      <div className='flex flex-col h-screen mx-auto max-w-160 w-full '> {/* root  */}
+        <div className="navbar bg-base-100 shadow-sm">
+          <div className="flex-none">
+            <button className=" btn btn-circle btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform mx-2">
+              <Link to='/'>
+                <HomeMark />
+              </Link>
+            </button>
+          </div>
+          <div className="flex-1">
+            <p className=" text-xl font-bold">SIXTICK</p>
+          </div>
+          <div className="flex-none">
+            <Login user={user} />
 
             <div className="dropdown dropdown-end">
-      <button className=" btn btn-circle btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform"><BarsMark /></button>
-      <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        <li><MyLink to='/home' >Home</MyLink></li>
-        <li><MyLink to='/todolist' >Todo List</MyLink></li>
-        {/* <li><Link to='/home' onClick={blur} className={linkStyle}>Home</Link></li>
+              <button className=" btn btn-circle btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform mx-2"><BarsMark /></button>
+              <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-100 mt-3 w-52 p-2 shadow">
+                <li><MyLink to='/home' >Home</MyLink></li>
+                <li><MyLink to='/todolist' >Todo List</MyLink></li>
+                {/* <li><Link to='/home' onClick={blur} className={linkStyle}>Home</Link></li>
         <li><Link to='/todolist' onClick={blur} className={linkStyle}>Todo List</Link></li> */}
-        <li>
-          <details open>
-            <summary>Parent</summary>
-            <ul>
-              <li><a>Submenu 1</a></li>
-              <li><a>Submenu 2</a></li>
-            </ul>
-          </details>
-        </li>
-        {user ? <li ><a href="#" onClick={(e) => {
-          e.preventDefault();
-          supabaseAuth.signOut();
-          }}>Sign out</a></li>: <a></a>}       
-      </ul>
-    </div>
-
-             
+                <li>
+                  <details open>
+                    <summary>Parent</summary>
+                    <ul>
+                      <li><a>Submenu 1</a></li>
+                      <li><a>Submenu 2</a></li>
+                    </ul>
+                  </details>
+                </li>
+                {user ? <li ><a href="#" onClick={(e) => {
+                  e.preventDefault();
+                  supabaseAuth.signOut();
+                }}>Sign out</a></li> : <a></a>}
+              </ul>
+            </div>
 
 
 
-           </div>
-         </div>
-
-         {/* contents */}
-         <div className='w-full flex-1 overflow-hidden'>
-            <Outlet/>
-         </div>
 
 
-         <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content items-center p-4">
-           <aside className="grid-flow-col items-center mx-auto">
-             <svg
+          </div>
+        </div>
+
+        {/* contents */}
+        <div className='w-full flex-1 overflow-y-auto '>
+          <Outlet />
+        </div>
+
+
+        <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content items-center p-4">
+          <aside className="grid-flow-col items-center mx-auto">
+            <svg
               width="36"
               height="36"
               viewBox="0 0 24 24"
@@ -105,10 +106,10 @@ export const Layout = () => {
             </svg>
             <p>Copyright © 2026 - All right reserved by <a className='font-bold' href='https://t.me/sixtick' target='_blank' rel='noreferrer noopener'>sixtick</a></p>
           </aside>
-          
+
         </footer>
 
       </div>
     </>
-    );
+  );
 }   

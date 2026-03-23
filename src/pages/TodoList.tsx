@@ -86,7 +86,7 @@ const TodoInput = React.memo(( { dispatch } : dispatchProps ) => {
         inputRef.current?.focus();
       };
   return (
-    <>
+    <div>
     <form className="flex w-full items-center" onSubmit={handleSubmit}>
       <input
         ref={inputRef} // ref 연결
@@ -102,7 +102,7 @@ const TodoInput = React.memo(( { dispatch } : dispatchProps ) => {
         추가
       </button>
       </form>
-    </>
+    </div>
   );
 });
 
@@ -124,11 +124,15 @@ const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
 
     return (
         <Component {...props}>
-        <div className="flex flex-col items-center h-full">
-            <h1 className="text-2xl font-bold m-4 ">할 일 목록 </h1>
-            <p className="text-right w-full text-gray-400 text-xs font-light mb-2 ">(로컬스토리지 사용량 : {(JSON.stringify(todos).length * 2 /1024).toFixed(2)}KBytes)</p>
+        <div className="flex flex-col  h-full min-h-0 ">
+            <div className="sticky top-1 z-10 bg-base-100">
+            <div><h1 className="text-2xl text-center font-bold m-4 ">할 일 목록</h1></div>
+            <div>
+                <p className="text-right w-full text-gray-400 text-xs font-light mb-2 ">(로컬스토리지 사용량 : {(JSON.stringify(todos).length * 2 /1024).toFixed(2)}KBytes)</p>
+            </div>
             <TodoInput dispatch={dispatch} />
-            <div className="w-full px-6 overflow-y-auto flex-1 min-h-0">
+            </div>
+            <div className=" px-6  flex-1 min-h-0 overflow-y-auto ">
                 {/* {todos.map((todo: Todo) => (
                     <TodoItem todo={todo} dispatch={dispatch} key={todo.id.toString()} />
                 ))} */}
@@ -137,7 +141,8 @@ const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
                     <TodoItem todo={todo} dispatch={dispatch} key={todo.id.toString()} />
                     ));
                 } */}
-                {
+
+                {/* {
                     (() => {
                         const res = [];
                         for (let i = todos.length - 1; i >= 0 ; i--) { 
@@ -146,7 +151,12 @@ const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
                         }   
                         return res;
                     })()
-                }
+                } */}
+
+                {/* 추천하는 렌더링 방식 */}
+                {[...todos].reverse().map((todo) => (
+                    <TodoItem todo={todo} dispatch={dispatch} key={todo.id} />
+                ))}
             </div>
         </div>
         </Component>

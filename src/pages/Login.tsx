@@ -23,7 +23,7 @@ const Login = ({user}: {user: User | null}) => {
   return (
     <>
       {user 
-        ? <a>{user.email}</a>
+        ? <a>{user.email?.split('@')[0]}</a>
         :<button className="btn rounded-full btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform" onClick={supabaseAuth.signInWithGoogle}>Sign in</button> }
 
     </>
