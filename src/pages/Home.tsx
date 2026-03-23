@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 
 import { HeartMark } from "../Icons";
+import meImage from "../assets/me.jpg";
 
 
 
@@ -15,13 +16,15 @@ const Home = () => {
   const rpcName = type === 'up' ? 'home_like_up' : 'home_like_down';
 
   // 인자(Parameter) 없이 함수 이름만 호출하면 끝!
+  setCount(prev => type === 'up' ? prev + 1 : Math.max(0, prev - 1));
   const { error } = await supabase.rpc(rpcName);
 
   if (!error) {
     // 화면의 숫자를 즉시 업데이트 (setCount 등 활용)
-    setCount(prev => type === 'up' ? prev + 1 : Math.max(0, prev - 1));
+    
   } else {
     console.error("좋아요 처리 중 오류:", error.message);
+    setCount(prev => Math.max(0, prev - 1));
   }
 };
 
@@ -76,9 +79,19 @@ const Home = () => {
     return (
         <>
             <div className="flex flex-col items-center justify-center h-full bg-sky-100">
-                <p className="">sixtick home</p>
+                {/* <p className="">sixtick home</p> */}
+                <div className="grid grid-cols-2 grid-flow-row p-4 gap-2">
+                    <img src={meImage} alt= "me" className="  mask mask-squircle shadow-xl"/>
+                    <ul className="my-auto mx-auto ">
+                        <li>🔹이름 : 조영훈</li>
+                        <li>🔹나이 : {new Date().getFullYear() - 1982}</li>
+                        <li>🔹사는곳 : 포천 신읍동</li>
+                        <li>🔹텔레그램 : <a className="font-bold underline hover:text-blue-500" href="https://t.me/sixtick" target="_blank" rel="noreferrer noopener">sixtick</a></li>
+                    </ul>
+                </div>
+                
                 <button className="btn btn-ghost hover:input-ghost hover:bg-transparent hover:scale-110 active:scale-90 transition-transform" onClick={() => handleHomeLike('up')}><HeartMark className="size-8 text-red-500"/> {count}</button>
-                <p className="">20260323 1112</p>
+                <p className="">Last build : 20260323 1153</p>
             </div>
             
 
