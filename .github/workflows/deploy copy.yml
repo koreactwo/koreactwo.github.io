@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main"] # 메인 브랜치에 푸시될 때 실행
 
 permissions:
   contents: read
@@ -16,21 +16,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # 1. Bun 설치 스텝 추가
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          bun-version: latest
+          node-version: 24
+          cache: 'npm'
 
-      # 2. 의존성 설치 (npm install -> bun install)
       - name: Install dependencies
-        run: bun install
+        run: npm install
 
-      # 3. 빌드 실행 (npm run build -> bun run build)
       - name: Build
-        run: bun run build
+        run: npm run build
 
-      # 404 에러 해결책 (기존 경로 유지)
+      # 404 에러 해결책
       - name: Copy index.html to 404.html for SPA support
         run: cp docs/index.html docs/404.html
 
@@ -40,7 +38,10 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
+          # 빌드 결과물이 생성되는 폴더명 (Vite는 dist, CRA는 build)
           path: './docs'
+
+      
 
       - name: Deploy to GitHub Pages
         id: deployment
