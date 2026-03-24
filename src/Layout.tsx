@@ -1,8 +1,48 @@
 import { Outlet, Link, type LinkProps } from "react-router";
 import { HomeMark, BarsMark } from "./Icons";
-import { supabase, supabaseAuth, type User } from "./lib/supabase";
-import { useEffect, useReducer } from "react";
+import { supabaseAuth, type User } from "./lib/supabase";
+import { createContext, useContext, useEffect, useReducer, useRef, type ReactNode } from "react";
 
+type PublicState = {
+  mainRect?: DOMRect | undefined | null;
+}
+
+type PublicAction = {type: 'SET'; payload: DOMRect | undefined | null;
+}
+
+const publicReducer = (state: PublicState, action: PublicAction): PublicState => {
+  switch (action.type) {
+    case 'SET':
+      return {...state, mainRect: action.payload}; // 전개 했다가 뒤에 같은이름이 있으면 뒤에꺼로 덮어씀
+    default:
+      return state;
+  }
+}
+
+interface PublicStateContextType {
+  state: PublicState;
+  dispatch: React.Dispatch<PublicAction>;
+}
+
+
+const PublicStateContext = createContext<PublicStateContextType | undefined>(undefined);
+
+export const PublicStateProvider = ({children}: { children: ReactNode }) => {
+  const [state, dispatch] = useReducer(publicReducer, {mainRect: null});
+  return (
+    <PublicStateContext.Provider value={{state, dispatch}}>
+      {children}
+    </PublicStateContext.Provider>
+    );
+}
+
+export const usePublicState = () => {
+  const context = useContext(PublicStateContext);
+  if (!context) {
+    throw new Error('usePublicState must be used within a PublicStateProvider');
+  }
+  return context;
+}
 
 
 
@@ -29,7 +69,7 @@ type userAction = {type: 'SIGN_IN';} |
 function userReducer(state: userState, action: userAction): userState {
   switch (action.type) {
     case 'SIGN_IN':
-      return { ...state};
+      return { ...state}; // 새로 고침되면서 쓸일이 없네
     case 'SIGN_OUT':
       return { ...state};
     case 'INIT':
@@ -39,30 +79,38 @@ function userReducer(state: userState, action: userAction): userState {
   }
 }
 
-const getSessionUser = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log(session?.user);
-        return session?.user ?? null;
-      };
-
 const Login = ({user}: userState) => {
   return (
     <>
       {user 
         ? <a>{user.email?.split('@')[0]}</a>
-        :<button className="btn rounded-full btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform" onClick={supabaseAuth.signInWithGoogle}>Sign in</button> }
+        :<button className="btn rounded-full btn-ghost hover:input-ghost hover:bg-transparent hover:text-error hover:scale-110 active:scale-90 transition-transform" onClick={supabaseAuth.signInWithGoogle}>Sign in</button> }
 
     </>
   );
 }
 
+// type MainRefState = {
+//   rect: DOMRect | undefined | null;
+// }
+
+// type MainRefAction = {type: 'SET'; payload: DOMRect | undefined | null};
+
+// function mainRefReducer(state: MainRefState, action: MainRefAction): MainRefState {
+//   switch (action.type) {
+//     case 'SET':
+//       return state;
+//     default:
+//       return state;
+//   }
+// }
 
 export const Layout = () => {
   const [user, dispatch] = useReducer(userReducer, {user: null});
-
+  const mainRef = useRef<HTMLMetaElement>(null);
   useEffect(() => {
     const initUser = async () => {
-      const res = await getSessionUser();
+      const res = await supabaseAuth.getUser();
       console.log('useEffect', res);
       dispatch({type: 'INIT', payload: res});
     }
@@ -70,7 +118,7 @@ export const Layout = () => {
   }, []);
 
 
-
+  // 변경감지가 구글 로그인이랑 직접적인 연관이 있나보군 ... 세션은 상관없네
   // useEffect(() => {
   //   // 현재 세션 확인 및 상태 업데이트
   //   supabase.auth.getUser().then(({ data: { user } }) => {
@@ -89,9 +137,9 @@ export const Layout = () => {
   return (
     <>
       <div className='flex flex-col h-screen mx-auto max-w-160 w-full '> {/* root  */}
-        <div className="navbar bg-base-100 shadow-sm">
+        <header className="navbar bg-base-100 shadow-sm">
           <div className="flex-none">
-            <button className=" btn btn-circle btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform mx-2">
+            <button className=" btn btn-circle btn-ghost hover:input-ghost hover:bg-transparent hover:text-error hover:scale-110 active:scale-90 transition-transform mx-2">
               <Link to='/'>
                 <HomeMark />
               </Link>
@@ -104,7 +152,7 @@ export const Layout = () => {
             <Login user={user.user} />
 
             <div className="dropdown dropdown-end">
-              <button className=" btn btn-circle btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform mx-2"><BarsMark /></button>
+              <button className=" btn btn-circle btn-ghost hover:input-ghost hover:bg-transparent hover:text-error hover:scale-110 active:scale-90 transition-transform mx-2"><BarsMark /></button>
               <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-100 mt-3 w-52 p-2 shadow">
                 <li><MyLink to='/home' >Home</MyLink></li>
                 <li><MyLink to='/todolist' >Todo List</MyLink></li>
@@ -118,10 +166,9 @@ export const Layout = () => {
                     </ul>
                   </details>
                 </li>
-                {user ? <li ><a href="#" onClick={async (e) => {
+                {user.user ? <li ><a href="#" onClick={(e) => {
                   e.preventDefault();
-                  await supabaseAuth.signOut();
-                  window.location.reload();
+                  supabaseAuth.signOut();
                 }}>Sign out</a></li> : <a></a>}
               </ul>
             </div>
@@ -131,12 +178,12 @@ export const Layout = () => {
 
 
           </div>
-        </div>
+        </header>
 
         {/* contents */}
-        <div className='w-full flex-1 overflow-y-auto '>
-          <Outlet />
-        </div>
+        <main ref={mainRef} className='w-full flex-1 overflow-y-auto '>
+          <Outlet context={{rect : mainRef.current?.getBoundingClientRect() }} />
+        </main>
 
 
         <footer className="footer sm:footer-horizontal bg-neutral text-neutral-content items-center p-4">

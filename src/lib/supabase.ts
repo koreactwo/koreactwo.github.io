@@ -23,17 +23,21 @@ const signInWithGoogle = async () => {
     return data;
 };
 
+/**
+ * 로그아웃 후 새로고침 실행
+ */
 const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     
     if (error) console.error('로그아웃 에러:', error.message);
     console.log('로그아웃');
+    window.location.reload();
 };
 
 const getUser = async () => {
     const { data: { session } } = await supabase.auth.getSession();
-    console.log(session?.user);
-    return session?.user;
+    console.log('getUser:', session?.user);
+    return session?.user ?? null;
 };
 
 export const supabaseAuth = { signInWithGoogle, signOut, getUser };

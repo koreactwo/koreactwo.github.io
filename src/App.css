@@ -4,7 +4,7 @@
 
 @layer components {
   .sixtick-btn {
-    @apply btn btn-circle btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform
+    @apply btn btn-circle btn-ghost hover:input-ghost hover:bg-transparent hover:text-error hover:scale-110 active:scale-90 transition-transform
 
   }
 }

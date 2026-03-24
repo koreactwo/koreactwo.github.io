@@ -78,7 +78,7 @@ const Home = () => {
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center h-full bg-sky-100">
+            <div className="flex flex-col items-center justify-center h-full bg-primary/6">
                 {/* <p className="">sixtick home</p> */}
                 <div className="grid grid-cols-2 grid-flow-row p-4 gap-2">
                     <img src={meImage} alt= "me" className="  mask mask-squircle shadow-xl"/>
@@ -91,7 +91,7 @@ const Home = () => {
                 </div>
                 
                 <button className="btn btn-ghost hover:input-ghost hover:bg-transparent hover:scale-110 active:scale-90 transition-transform" onClick={() => handleHomeLike('up')}><HeartMark className="size-8 text-red-500"/> {count}</button>
-                <p className="">Last build : 20260324 1021</p>
+                <p className="">Last build : 20260324 1955</p>
             </div>
             
 
