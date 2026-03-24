@@ -1,8 +1,7 @@
 import { Outlet, Link, type LinkProps } from "react-router";
 import { HomeMark, BarsMark } from "./Icons";
-import Login from "./pages/Login";
 import { supabase, supabaseAuth, type User } from "./lib/supabase";
-import { useState, useEffect } from "react";
+import { useEffect, useReducer } from "react";
 
 
 
@@ -19,24 +18,73 @@ const MyLink = ({ to, children, className, ...props }: LinkProps) => {
 
 }
 
+type userState = {
+  user: User | null;
+}
+
+type userAction = {type: 'SIGN_IN';} | 
+                  {type: 'SIGN_OUT';} |
+                  {type: 'INIT'; payload: User | null};
+
+function userReducer(state: userState, action: userAction): userState {
+  switch (action.type) {
+    case 'SIGN_IN':
+      return { ...state};
+    case 'SIGN_OUT':
+      return { ...state};
+    case 'INIT':
+      return {user:action.payload};
+    default:
+      return state;
+  }
+}
+
+const getSessionUser = async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log(session?.user);
+        return session?.user ?? null;
+      };
+
+const Login = ({user}: userState) => {
+  return (
+    <>
+      {user 
+        ? <a>{user.email?.split('@')[0]}</a>
+        :<button className="btn rounded-full btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform" onClick={supabaseAuth.signInWithGoogle}>Sign in</button> }
+
+    </>
+  );
+}
+
 
 export const Layout = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, dispatch] = useReducer(userReducer, {user: null});
 
   useEffect(() => {
-    // 현재 세션 확인 및 상태 업데이트
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      console.log(user?.email?.split('@')[0]);
-      setUser(user);
-    });
-
-    // 인증 상태 변경 감지 (로그인/로그아웃 등)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe(); // 클린업
+    const initUser = async () => {
+      const res = await getSessionUser();
+      console.log('useEffect', res);
+      dispatch({type: 'INIT', payload: res});
+    }
+    initUser();
   }, []);
+
+
+
+  // useEffect(() => {
+  //   // 현재 세션 확인 및 상태 업데이트
+  //   supabase.auth.getUser().then(({ data: { user } }) => {
+  //     console.log(user?.email?.split('@')[0]);
+  //     setUser(user);
+  //   });
+
+  //   // 인증 상태 변경 감지 (로그인/로그아웃 등)
+  //   const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+  //     setUser(session?.user ?? null);
+  //   });
+
+  //   return () => subscription.unsubscribe(); // 클린업
+  // }, []);
 
   return (
     <>
@@ -53,15 +101,14 @@ export const Layout = () => {
             <p className=" text-xl font-bold">SIXTICK</p>
           </div>
           <div className="flex-none">
-            <Login user={user} />
+            <Login user={user.user} />
 
             <div className="dropdown dropdown-end">
               <button className=" btn btn-circle btn-ghost hover:text-error hover:scale-110 active:scale-90 transition-transform mx-2"><BarsMark /></button>
               <ul className="menu menu-sm dropdown-content bg-base-100 rounded-box z-100 mt-3 w-52 p-2 shadow">
                 <li><MyLink to='/home' >Home</MyLink></li>
                 <li><MyLink to='/todolist' >Todo List</MyLink></li>
-                {/* <li><Link to='/home' onClick={blur} className={linkStyle}>Home</Link></li>
-        <li><Link to='/todolist' onClick={blur} className={linkStyle}>Todo List</Link></li> */}
+                <li><MyLink to='/cloudtodo' >Cloud Todo</MyLink></li>
                 <li>
                   <details open>
                     <summary>Parent</summary>
@@ -71,9 +118,10 @@ export const Layout = () => {
                     </ul>
                   </details>
                 </li>
-                {user ? <li ><a href="#" onClick={(e) => {
+                {user ? <li ><a href="#" onClick={async (e) => {
                   e.preventDefault();
-                  supabaseAuth.signOut();
+                  await supabaseAuth.signOut();
+                  window.location.reload();
                 }}>Sign out</a></li> : <a></a>}
               </ul>
             </div>

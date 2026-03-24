@@ -7,6 +7,7 @@ import Home from './pages/Home.tsx';
 import Profile from './pages/Profile.tsx';
 
 import "./App.css";
+import CloudTodo from './pages/CloudTodo.tsx';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/todolist' element={<TodoList />} />
+        <Route path='/cloudtodo' element={<CloudTodo />} />
         <Route path='*' element={<Home />} />
       </Route>
     </Routes>

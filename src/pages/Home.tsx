@@ -91,7 +91,7 @@ const Home = () => {
                 </div>
                 
                 <button className="btn btn-ghost hover:input-ghost hover:bg-transparent hover:scale-110 active:scale-90 transition-transform" onClick={() => handleHomeLike('up')}><HeartMark className="size-8 text-red-500"/> {count}</button>
-                <p className="">Last build : 20260323 1153</p>
+                <p className="">Last build : 20260324 1021</p>
             </div>
             
 
