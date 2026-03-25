@@ -8,15 +8,22 @@ interface ModifyProps {
     modifyRef: React.RefObject<HTMLDialogElement | null>;
 
 }
+
+const handleToggle = (todo: TodoState, dispatch: React.Dispatch<TodoAction>) => {
+    // 참조 무결성 때문에 상태를 직접 건들지 않고 dispatch 한다. 뭐 상태에 직접 대입도 안되지만 ㅋㅋ
+    dispatch({ type: 'TOGGLE', payload: {...todo, completed: !todo.completed, version: todo.version + 1} });
+}
+
 const TodoItem = ({ todo, dispatch }: { todo: TodoState, dispatch: React.Dispatch<TodoAction> }) => {
     // 수정, 삭제, 완료토글
     const modifyRef = useRef<HTMLDialogElement>(null);
     const { text, completed } = todo;
+    console.log('TodoItem render: ', todo);
 
     return (
         <div className='flex flex-row hover:bg-secondary/10 items-center justify-between p-2 mb-1'>
 
-            <button className='sixtick-btn flex-1 ml-6' onClick={() => dispatch({ type: 'TOGGLE', payload: todo })}>
+            <button className='sixtick-btn flex-1 ml-6' onClick={() => handleToggle(todo, dispatch)}>
                 {completed ? '✔️' : '🔹'}
                 <span className={`w-full ${completed ? 'font-normal text-gray-400' : ''}`}>{text}</span>
             </button>
@@ -48,10 +55,11 @@ const ModifyModal = ({ modifyRef, todo, dispatch }: ModifyProps) => {
     const handleUpdate = (e?: React.SubmitEvent<HTMLFormElement>) => {
         if (e) e.preventDefault();
         // if (inputValue.trim() === "") return; // 빈 값 체크
+        // TODO 이전 버전 체크하는 구문 필요 *******************************************************************************************
         // 2. 실제 데이터 반영
         dispatch({
             type: 'UPDATE', // reducer에 정의된 수정 액션 타입
-            payload: { ...todo, text: inputValue }
+            payload: { ...todo, text: inputValue, version: todo.version + 1}
         });
 
         // 엔터로 등록 후 모달을 수동으로 닫고 싶을 때

@@ -8,24 +8,31 @@ export type TodoState = {
     id: number;
     text: string;
     completed: boolean;
+    version: number;
 }
 
-export type TodoAction = {type: 'ADD'; payload: TodoState} | {type: 'DELETE'; payload: TodoState} | {type: 'TOGGLE'; payload: TodoState} |
+export type TodoAction = 
+    {type: 'ADD'; payload: TodoState} | 
+    {type: 'DELETE'; payload: TodoState} | 
+    {type: 'TOGGLE'; payload: TodoState} |
     {type: 'UPDATE'; payload: TodoState};
 
 const todoReducer = (state: TodoState[], action: TodoAction): TodoState[] => {
+    console.log('todoReducer',action.type, action.payload); // 참조 무결성 때문에 map 으로 복사본을 만듦
     switch (action.type) {
         case 'ADD':
             return [...state, action.payload];  
         case 'DELETE':
             return state.filter(todo => todo.id !== action.payload.id);
-        case 'TOGGLE':
-            return state.map(todo => todo.id === action.payload.id ? {...todo, completed: !todo.completed} : todo);
+        case 'TOGGLE': 
+            return state.map(todo => todo.id === action.payload.id ? action.payload : todo);
         case 'UPDATE':
-            return state.map(todo => todo.id === action.payload.id ? {...todo, text: action.payload.text} : todo);
+            return state.map(todo => todo.id === action.payload.id ? action.payload : todo);
         default:
             return state;
+            
     }
+    
 }
 
 
@@ -88,7 +95,7 @@ const AddModal = ({ addRef, dispatch }: AddProps) => {
         // 2. 실제 데이터 반영
         dispatch({
             type: 'ADD', // reducer에 정의된 수정 액션 타입
-            payload: { id: Date.now(), completed: false, text: inputValue }
+            payload: { id: Date.now(), completed: false, text: inputValue, version: 1}
         });
 
         setInputValue(''); // 입력창 초기화
