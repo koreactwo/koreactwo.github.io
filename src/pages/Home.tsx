@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../lib/supabase";
 
-import { HeartMark } from "../Icons";
+// import { HeartMark } from "../Icons";
 import meImage from "../assets/me.jpg";
 
 

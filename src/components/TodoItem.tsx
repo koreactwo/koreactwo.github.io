@@ -61,7 +61,7 @@ const ModifyModal = ({ modifyRef, todo, dispatch }: ModifyProps) => {
         (document.activeElement as HTMLElement)?.blur();
     };
 
-    const handleEsc = (e: React.SyntheticEvent<HTMLDialogElement>) => {
+    const handleEsc = (/*e: React.SyntheticEvent<HTMLDialogElement>*/) => {
         console.log('esc key event');
         setInputValue(todo.text);
         modifyRef.current?.close();
