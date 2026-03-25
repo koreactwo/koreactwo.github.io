@@ -1,10 +1,11 @@
 {
   "name": "sixtick",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.5",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
+    "prebuild": "bun update-build-time.js",
     "build": "tsc -b && vite build && cp docs/index.html docs/404.html",
     "lint": "eslint .",
     "preview": "vite preview"

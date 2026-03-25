@@ -5,6 +5,9 @@ import { supabase } from "../lib/supabase";
 // import { HeartMark } from "../Icons";
 import meImage from "../assets/me.jpg";
 
+const buildTime = import.meta.env.VITE_LAST_BUILD_TIME;
+console.log('buildTime', buildTime);
+
 
 
 const Home = () => {
@@ -91,7 +94,7 @@ const Home = () => {
                 </div>
                 
                 <button className="btn btn-ghost hover:input-ghost hover:bg-transparent hover:scale-110 active:scale-90 transition-transform text-lg" onClick={() => handleHomeLike('up')}>🩷 {count}</button>
-                <p className="">Last build : 20260324 2019</p>
+                <p className="">Last build : {buildTime}</p>
             </div>
             
 
