@@ -73,7 +73,10 @@ const CloudTodo = () => {
     if(!user){ // 로그인 사용자만 쓸수있음
         return (
             <div className="flex flex-col items-center justify-center h-full bg-primary/6">
-                <p>사용하려면 로그인 해주세요</p>
+                <h1 className="text-2xl font-bold">Cloud Todo</h1>
+                <p className="text-lg">사용하려면 로그인 해주세요.</p>
+                <p className="text-sm text-warning">카카오 브라우저는 보안상 사용불가합니다.</p>
+                <p className="text-sm text-warning">다른 브라우저를 사용하세요.</p>
                 <button className="btn rounded-full" onClick={() => supabaseAuth.signInWithGoogle('/cloudtodo')}>Sign in</button>
             </div>
         );
