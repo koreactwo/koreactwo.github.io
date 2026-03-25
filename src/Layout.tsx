@@ -84,7 +84,7 @@ const Login = ({user}: userState) => {
     <>
       {user 
         ? <a>{user.email?.split('@')[0]}</a>
-        :<button className="btn rounded-full btn-ghost hover:input-ghost hover:bg-transparent hover:text-error hover:scale-110 active:scale-90 transition-transform" onClick={supabaseAuth.signInWithGoogle}>Sign in</button> }
+        :<button className="btn rounded-full btn-ghost hover:input-ghost hover:bg-transparent hover:text-error hover:scale-110 active:scale-90 transition-transform" onClick={() => supabaseAuth.signInWithGoogle()}>Sign in</button> }
 
     </>
   );
@@ -182,7 +182,7 @@ export const Layout = () => {
 
         {/* contents */}
         <main ref={mainRef} className='w-full flex-1 overflow-y-auto '>
-          <Outlet context={{rect : mainRef.current?.getBoundingClientRect() }} />
+          <Outlet context={{rect : mainRef.current?.getBoundingClientRect(), user: user.user}} />
         </main>
 
 

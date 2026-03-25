@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router";
 
 import FloatButton from "../components/FloatButton";
 import TodoItem from "../components/TodoItem";
+import { supabaseAuth, supabaseTodo, type User} from "../lib/supabase";
 
 export type TodoState = {
     id: number;
@@ -12,22 +13,25 @@ export type TodoState = {
 }
 
 export type TodoAction = 
+    {type: 'INIT'; payload: TodoState[]} | 
     {type: 'ADD'; payload: TodoState} | 
     {type: 'DELETE'; payload: TodoState} | 
     {type: 'TOGGLE'; payload: TodoState} |
     {type: 'UPDATE'; payload: TodoState};
 
 const todoReducer = (state: TodoState[], action: TodoAction): TodoState[] => {
-    console.log('todoReducer',action.type, action.payload); // 참조 무결성 때문에 map 으로 복사본을 만듦
+    // console.log('todoReducer',action.type, action.payload); // 참조 무결성 때문에 map 으로 복사본을 만듦
     switch (action.type) {
         case 'ADD':
-            return [...state, action.payload];  
+            return [ action.payload, ...state];  
         case 'DELETE':
             return state.filter(todo => todo.id !== action.payload.id);
         case 'TOGGLE': 
             return state.map(todo => todo.id === action.payload.id ? action.payload : todo);
         case 'UPDATE':
             return state.map(todo => todo.id === action.payload.id ? action.payload : todo);
+        case 'INIT':
+            return action.payload;
         default:
             return state;
             
@@ -41,12 +45,21 @@ const CloudTodo = () => {
     // 추가 버튼 ... 다이얼로그 
     // 상태가 변하면 다시그린다
     const [todos, dispatch] = useReducer(todoReducer, []);
-    const { rect } = useOutletContext<{ rect: DOMRect }>();
+    const { rect, user } = useOutletContext<{ rect: DOMRect, user: User | null}>();
     const [top, setTop] = useState(10);
     const [left, setLeft] = useState(10);
     const addRef = useRef<HTMLDialogElement>(null);
     
+    useEffect(() => {
+        supabaseTodo.todoRead().then((res) => {
+            if (res.error) {// 에러
+            } else if (res.data) { // 성공?
+                dispatch({type: 'INIT', payload: res.data});
+            } else { // 이상황은 뭔가
+            }
+        });
 
+    },[]);
 
     useEffect(() => {
         console.log('CloudTodo useEffect rect : ', rect);
@@ -57,12 +70,20 @@ const CloudTodo = () => {
         }
     }, [rect]);
 
+    if(!user){ // 로그인 사용자만 쓸수있음
+        return (
+            <div className="flex flex-col items-center justify-center h-full bg-primary/6">
+                <p>사용하려면 로그인 해주세요</p>
+                <button className="btn rounded-full" onClick={() => supabaseAuth.signInWithGoogle('/cloudtodo')}>Sign in</button>
+            </div>
+        );
+    }
 
     return (
         
         <div className=" bg-primary/10 h-full w-full relative overflow-y-auto">
             <div className="text-center">CloudTodo page</div> 
-            {[...todos].reverse().map((todo) => {
+            {[...todos].map((todo) => {
                 return(
                     <TodoItem key={todo.id} todo={todo} dispatch={dispatch}/>
                 );
@@ -92,11 +113,21 @@ const AddModal = ({ addRef, dispatch }: AddProps) => {
     const handleUpdate = (e?: React.SubmitEvent<HTMLFormElement>) => {
         if(e) e.preventDefault();
         if (inputValue.trim() === "") return; // 빈 값 체크
-        // 2. 실제 데이터 반영
-        dispatch({
-            type: 'ADD', // reducer에 정의된 수정 액션 타입
-            payload: { id: Date.now(), completed: false, text: inputValue, version: 1}
+
+        // 서버에 넣고 에러없으면 상태에 반영
+        supabaseTodo.todoCreate(inputValue).then((res) => {
+            if (res.error) {// 에러
+                // 42501 RLS 로그인안했을때 
+
+            } else if (res.data) { // 성공?
+                // console.log('todoCreate res.data[0] : ', res.data[0]);
+                dispatch({type: 'ADD', payload: res.data[0]});
+            } else { // 이상황은 뭔가
+
+            }
         });
+
+        
 
         setInputValue(''); // 입력창 초기화
 

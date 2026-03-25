@@ -1,6 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useRef, memo } from 'react';
 import { useState, useEffect } from 'react';
 import { type TodoState, type TodoAction } from '../pages/CloudTodo.tsx';
+import { supabaseTodo } from '../lib/supabase.ts';
 
 interface ModifyProps {
     todo: TodoState;
@@ -11,10 +12,30 @@ interface ModifyProps {
 
 const handleToggle = (todo: TodoState, dispatch: React.Dispatch<TodoAction>) => {
     // 참조 무결성 때문에 상태를 직접 건들지 않고 dispatch 한다. 뭐 상태에 직접 대입도 안되지만 ㅋㅋ
-    dispatch({ type: 'TOGGLE', payload: {...todo, completed: !todo.completed, version: todo.version + 1} });
+    supabaseTodo.todoUpdate({ ...todo, completed: !todo.completed }).then((res) => {
+        if (res.error) {// 에러
+        } else if (res.data) { // 성공?
+            console.log('handleToggle res.data[0] : ', res.data[0]);
+            dispatch({ type: 'UPDATE', payload: res.data[0] });
+        } else { // 이상황은 뭔가
+        }
+    });
 }
 
-const TodoItem = ({ todo, dispatch }: { todo: TodoState, dispatch: React.Dispatch<TodoAction> }) => {
+const handleDelete = (todo: TodoState, dispatch: React.Dispatch<TodoAction>) => {
+    console.log('handleDelete todo : ', todo);
+    supabaseTodo.todoDelete(todo.id).then((res) => {
+        if (res.error) {// 에러
+        } else if (res.data) { // 성공?
+            dispatch({ type: 'DELETE', payload: res.data[0] });
+        } else { // 이상황은 뭔가
+        }
+    });
+}
+
+
+
+const TodoItem = memo(({ todo, dispatch }: { todo: TodoState, dispatch: React.Dispatch<TodoAction> }) => {
     // 수정, 삭제, 완료토글
     const modifyRef = useRef<HTMLDialogElement>(null);
     const { text, completed } = todo;
@@ -30,13 +51,13 @@ const TodoItem = ({ todo, dispatch }: { todo: TodoState, dispatch: React.Dispatc
 
             <div>
                 <button className='sixtick-btn' onClick={() => modifyRef.current?.showModal()}>✏️</button>
-                <button className='sixtick-btn' onClick={() => dispatch({ type: 'DELETE', payload: todo })}>❌</button>
+                <button className='sixtick-btn' onClick={() => handleDelete(todo, dispatch)}>❌</button>
             </div>
             {/* <button className="btn" onClick={()=>document.getElementById('my_modal_1').showModal()}>open modal</button> */}
             <ModifyModal modifyRef={modifyRef} todo={todo} dispatch={dispatch} />
         </div>
     );
-}
+});
 
 export default TodoItem;
 
@@ -56,11 +77,21 @@ const ModifyModal = ({ modifyRef, todo, dispatch }: ModifyProps) => {
         if (e) e.preventDefault();
         // if (inputValue.trim() === "") return; // 빈 값 체크
         // TODO 이전 버전 체크하는 구문 필요 *******************************************************************************************
-        // 2. 실제 데이터 반영
-        dispatch({
-            type: 'UPDATE', // reducer에 정의된 수정 액션 타입
-            payload: { ...todo, text: inputValue, version: todo.version + 1}
+
+        supabaseTodo.todoUpdate({ ...todo, text: inputValue }).then((res) => {
+            if (res.error) {// 에러
+            } else if (res.data) { // 성공?
+                console.log('todoUpdate res.data[0] : ', res.data[0]);
+                dispatch({ type: 'UPDATE', payload: res.data[0] });
+            } else { // 이상황은 뭔가
+            }
         });
+
+        // 2. 실제 데이터 반영
+        // dispatch({
+        //     type: 'UPDATE', // reducer에 정의된 수정 액션 타입
+        //     payload: { ...todo, text: inputValue, version: todo.version + 1}
+        // });
 
         // 엔터로 등록 후 모달을 수동으로 닫고 싶을 때
         modifyRef.current?.close();
