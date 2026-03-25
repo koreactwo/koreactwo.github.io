@@ -25,7 +25,7 @@ export const FloatButton = ( props : FloatButtonProps) => {
         <>
             <button ref={thisTag} 
                 style={{top : `${props.top}px`, left : `${props.left}px`}}
-                onClick={props.onClick} className="fixed shadow btn btn-square  btn-outline btn-primary z-50"><PlusMark /></button>
+                onClick={props.onClick} className="fixed shadow btn btn-square bg-base-100 hover:bg-primary btn-outline btn-primary z-50"><PlusMark /></button>
         </>
     );
 }
