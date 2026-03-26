@@ -2,6 +2,9 @@
 @import "tailwindcss";
 @plugin "daisyui"; /* daisyUI를 플러그인으로 호출 */
 
+/* Typography 플러그인 (마크다운 스타일링용) */
+@plugin "@tailwindcss/typography";
+
 @layer components {
   .sixtick-btn {
     @apply btn btn-circle btn-ghost hover:input-ghost hover:bg-transparent hover:text-error hover:scale-110 active:scale-90 transition-transform

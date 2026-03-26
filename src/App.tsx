@@ -8,6 +8,7 @@ import Profile from './pages/Profile.tsx';
 
 import "./App.css";
 import CloudTodo from './pages/CloudTodo.tsx';
+import MarkdownViewer from './pages/MarkdownViewer.tsx';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/todolist' element={<TodoList />} />
         <Route path='/cloudtodo' element={<CloudTodo />} />
+        <Route path='/markdown' element={<MarkdownViewer />} />
         <Route path='*' element={<Home />} />
       </Route>
     </Routes>

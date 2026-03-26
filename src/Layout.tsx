@@ -1,7 +1,7 @@
 import { Outlet, Link, type LinkProps } from "react-router";
 import { HomeMark, BarsMark } from "./Icons";
 import { supabaseAuth, type User } from "./lib/supabase";
-import { createContext, useContext, useEffect, useReducer, useRef, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useReducer, useRef, useState, type ReactNode } from "react";
 
 type PublicState = {
   mainRect?: DOMRect | undefined | null;
@@ -105,9 +105,44 @@ const Login = ({user}: userState) => {
 //   }
 // }
 
+// export type OutletProps = {
+//   rect?: DOMRect | undefined | null;
+//   user?: User | null;
+// }
+
+export function useElementRect() {
+  const ref = useRef<HTMLElement>(null);
+  // 초기값은 null로 설정하여 데이터가 아직 없음을 명시
+  const [rect, setRect] = useState<DOMRect | null>(null);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const observer = new ResizeObserver(() => {
+      if (ref.current) {
+        // 요소의 크기나 위치가 변할 때마다 전체 DOMRect를 새로 가져옴
+        setRect(ref.current.getBoundingClientRect());
+      }
+    });
+
+    observer.observe(ref.current);
+
+    // 첫 로드 시에도 한 번 실행하여 초기 위치 확보
+    setRect(ref.current.getBoundingClientRect());
+
+    return () => observer.disconnect();
+  }, []);
+
+  return [ref, rect] as const;
+}
+
+
 export const Layout = () => {
   const [user, dispatch] = useReducer(userReducer, {user: null});
-  const mainRef = useRef<HTMLMetaElement>(null);
+  // const mainRef = useRef<HTMLMetaElement>(null);
+  const [ref, rect] = useElementRect();
+
+
   useEffect(() => {
     const initUser = async () => {
       const res = await supabaseAuth.getUser();
@@ -157,6 +192,7 @@ export const Layout = () => {
                 <li><MyLink to='/home' >Home</MyLink></li>
                 <li><MyLink to='/todolist' >Todo List</MyLink></li>
                 <li><MyLink to='/cloudtodo' >Cloud Todo</MyLink></li>
+                <li><MyLink to='/markdown' >Markdown</MyLink></li>
                 <li>
                   <details open>
                     <summary>Parent</summary>
@@ -181,8 +217,8 @@ export const Layout = () => {
         </header>
 
         {/* contents */}
-        <main ref={mainRef} className='w-full flex-1 overflow-y-auto '>
-          <Outlet context={{rect : mainRef.current?.getBoundingClientRect(), user: user.user}} />
+        <main ref={ref} className='w-full flex-1 overflow-y-auto '>
+          <Outlet context={{rect : rect, user: user.user}} />
         </main>
 
 
