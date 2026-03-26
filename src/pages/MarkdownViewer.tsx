@@ -9,36 +9,43 @@ import { useEffect, useState } from 'react';
 
 // 1. 모든 .md 파일을 eager(즉시) 로드하거나 파일 경로만 가져옵니다.
 // 'as: "raw"'를 쓰면 파일 내용을 문자열로 바로 가져올 수 있어 편리합니다.
-const markdownFiles = import.meta.glob('/src/assets/docs/*.md', {
-  query: '?raw',
-  import: 'default',
-  eager: true
-});
+// const markdownFiles = import.meta.glob('/src/assets/docs/*.md', {
+//   query: '?raw',
+//   import: 'default',
+//   eager: true
+// });
 
 
 const MarkdownViewer = () => {
   const [content, setContent] = useState('');
-  const [fileList, setFileList] = useState<{ name: string; path: string }[]>([]);
-
+  const [fileList, setFileList] = useState<{ name: string; path: string }[]>([
+    { name: 'bun_hono', path: '/docs/bun_hono.md'}
+  ]);
 
   useEffect(() => {
-    // 2. 파일 경로 객체를 배열로 변환
-    const list = Object.keys(markdownFiles).map((path) => {
-      // 경로에서 파일명만 추출 (예: /src/assets/docs/guide.md -> guide)
-      const fileName = path.split('/').pop()?.replace('.md', '') || 'Untitled';
-      console.log(fileName, path);
-      return {
-        name: fileName,
-        path: path
-      };
-    });
-    setFileList(list);
+    setFileList([
+      { name: 'bun_hono', path: '/docs/bun_hono.md' },
+      { name: 'react_hooks', path: '/docs/react_hooks.md' },
+    ]);
+  });
+  // useEffect(() => {
+  //   // 2. 파일 경로 객체를 배열로 변환
+  //   const list = Object.keys(markdownFiles).map((path) => {
+  //     // 경로에서 파일명만 추출 (예: /src/assets/docs/guide.md -> guide)
+  //     const fileName = path.split('/').pop()?.replace('.md', '') || 'Untitled';
+  //     console.log(fileName, path);
+  //     return {
+  //       name: fileName,
+  //       path: path
+  //     };
+  //   });
+  //   setFileList(list);
 
-    if (fileList.length === 0) return;
+  //   if (fileList.length === 0) return;
 
 
 
-  }, []);
+  // }, []);
 
   const handleFileClick = (path: string) => {
     fetch(path)
