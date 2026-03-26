@@ -27,7 +27,7 @@ const MarkdownViewer = () => {
       { name: 'bun_hono', path: '/docs/bun_hono.md' },
       { name: 'react_hooks', path: '/docs/react_hooks.md' },
     ]);
-  });
+  },[]);
   // useEffect(() => {
   //   // 2. 파일 경로 객체를 배열로 변환
   //   const list = Object.keys(markdownFiles).map((path) => {
@@ -98,7 +98,7 @@ const SidebarLayout = ({ children, fileList, onSelect }: any) => {
       </div>
 
       {/* 2. 사이드바 영역 */}
-      <div className={`drawer-side absolute z-40 `}>
+      <div className={`drawer-side absolute `}>
         <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
         <ul className={`menu p-4 w-60 bg-primary-content text-base-content 
                  h-screen overflow-y-auto flex-nowrap `}>
