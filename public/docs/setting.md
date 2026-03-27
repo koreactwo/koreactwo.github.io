@@ -8,6 +8,7 @@ cat ~/.ssh/koreactwo_key.pub
 - settigs에 SSH 퍼블릭키를 등록한다
 - 저장소를 vscode와 연동시킨다 (git clone)
 
+
 ```
 cat <<EOF >> ~/.ssh/config
 
@@ -19,6 +20,7 @@ Host koreactwo # 별칭
   IdentitiesOnly yes  # 이 줄이 핵심입니다. 에이전트의 다른 키를 무시합니다.
 EOF
 ```
+
 - ssh config 설정 : 별칭을 넣어서 저장소 별로 키를 지정한다
 
 ```
@@ -31,10 +33,11 @@ ssh -T git@koreactwo
 ```
 
 ### react 설정
-- 
+ 
 ```
 docker run -it --rm -v $(pwd):/app -w /app -p 5173:5173 node:lts bash
 ```
+
 - 컨테이너 attach 
 - 이후
 ```
@@ -44,6 +47,7 @@ npm install
 npm run dev
 
 ```
+
 - 만약 페이지가 안열리면 package.json 파일에서 스크립트 부분을 아래처럼 수정한다 . 
 ```
 "scripts": {
@@ -70,7 +74,7 @@ export default defineConfig({
 })
 ```
 - npm run build
-- ![alt text](image-1.png)
+- ![alt text](../images/image-1.png)
 - 깃허브 Pages Root 변경 / -> /docs 그리고 save 버튼 클릭 
 - 강력 새로고침: 나중에 또 안 바뀐다 싶으면 Ctrl + Shift + R
 
@@ -82,6 +86,7 @@ export default defineConfig({
 npm install -D tailwindcss@latest @tailwindcss/vite@latest daisyui@latest
 
 ```
+
 - vite.config.ts 수정
 ```
 import { defineConfig } from 'vite';
@@ -178,6 +183,7 @@ jobs:
 
 
 ### terser 모듈, 로그 코드 제거
+
 ```
 npm add -D terser
 
