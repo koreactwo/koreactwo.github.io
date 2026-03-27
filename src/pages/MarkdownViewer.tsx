@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useEffect, useState } from 'react';
 
+
 // 1. 모든 .md 파일을 eager(즉시) 로드하거나 파일 경로만 가져옵니다.
 // 'as: "raw"'를 쓰면 파일 내용을 문자열로 바로 가져올 수 있어 편리합니다.
 // const markdownFiles = import.meta.glob('/src/assets/docs/*.md', {
@@ -15,19 +16,39 @@ import { useEffect, useState } from 'react';
 //   eager: true
 // });
 
+interface FileNode {
+  name: string;
+  extension?: string;
+  type: 'file' | 'directory';
+  path: string;
+  children?: FileNode[];
+}
+
 
 const MarkdownViewer = () => {
   const [content, setContent] = useState('');
-  const [fileList, setFileList] = useState<{ name: string; path: string }[]>([
-    { name: 'bun_hono', path: '/docs/bun_hono.md'}
-  ]);
+  // const [fileList, setFileList] = useState<{ name: string; path: string }[]>([
+  //   { name: 'bun_hono', path: '/docs/bun_hono.md'}
+  // ]);
+  const [nodes, setNodes] = useState<FileNode[]>([]);
 
   useEffect(() => {
-    setFileList([
-      { name: 'bun_hono', path: '/docs/bun_hono.md' },
-      { name: 'react_hooks', path: '/docs/react_hooks.md' },
-    ]);
-  },[]);
+    // public 폴더에 저장된 json을 fetch
+    fetch('/dir_tree.json')
+      .then((res) => res.json())
+      .then((data) => {
+        setNodes(data);
+        console.log('✅ 로드된 파일 구조:', data);
+      })
+      .catch((err) => console.error('❌ 로드 실패:', err));
+  }, []);
+  // useEffect(() => {
+  //   fetch('/dir_tree.js').
+  //   setFileList([
+  //     { name: 'bun_hono', path: '/docs/bun_hono.md' },
+  //     { name: 'react_hooks', path: '/docs/react_hooks.md' },
+  //   ]);
+  // },[]);
   // useEffect(() => {
   //   // 2. 파일 경로 객체를 배열로 변환
   //   const list = Object.keys(markdownFiles).map((path) => {
@@ -56,7 +77,7 @@ const MarkdownViewer = () => {
 
   return (
     <>
-      <SidebarLayout fileList={fileList} onSelect={handleFileClick}>
+      <SidebarLayout nodes={nodes} onSelect={handleFileClick}>
         <div className="prose max-w-none overflow-y-auto">
 
           {/* <div>
@@ -81,7 +102,7 @@ const MarkdownViewer = () => {
 export default MarkdownViewer;
 
 
-const SidebarLayout = ({ children, fileList, onSelect }: any) => {
+const SidebarLayout = ({ children, nodes, onSelect }: any) => {
 
   return (
     <div className="drawer  relative "> {/* lg:drawer-open 추가 시 데스크탑에선 상시 노출 */}
@@ -104,18 +125,36 @@ const SidebarLayout = ({ children, fileList, onSelect }: any) => {
                  h-screen overflow-y-auto flex-nowrap `}>
 
           <li className="menu-title text-lg">Documents</li>
-          {fileList.map((file: any) => (
-            <li key={file.path}>
+          {console.log('nodes.length : ', nodes.length)}
+
+          {/* {nodes?.docs?.map((node: FileNode) => (
+            node.extension === '.md' ?
+              <li key={node.path}>
               <button onClick={() => {
-                onSelect(file.path);
+                onSelect(node.path);
                 // 사이드바를 닫기 위해 체크박스 ID를 찾아 체크 해제
                 const drawer = document.getElementById('my-drawer') as HTMLInputElement;
                 if (drawer) drawer.checked = false;
               }}>
-                {file.name}
+                {node.name}
               </button>
             </li>
-          ))}
+            : null
+          ))} */}
+          {nodes?.find((n: FileNode) => n.name === 'docs')?.children
+            ?.filter((node: FileNode) => node.extension === '.md')
+            .map((node: FileNode) => (
+              <li key={node.path}>
+                <button onClick={() => {
+                  onSelect(node.path);
+                  const drawer = document.getElementById('my-drawer') as HTMLInputElement;
+                  if (drawer) drawer.checked = false;
+                }}>
+                  {node.name}
+                </button>
+              </li>
+            ))
+          }
           {/* <ul>
             {Array.from({ length: 500 }, (_, i) => (
               <li key={i}>{i}</li>

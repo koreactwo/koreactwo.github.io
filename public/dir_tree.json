@@ -1,0 +1,63 @@
+[
+  {
+    "name": "docs",
+    "type": "directory",
+    "path": "docs",
+    "children": [
+      {
+        "name": "react_router",
+        "extension": ".md",
+        "type": "file",
+        "path": "docs/react_router.md"
+      },
+      {
+        "name": "react_http",
+        "extension": ".md",
+        "type": "file",
+        "path": "docs/react_http.md"
+      },
+      {
+        "name": "react_hooks",
+        "extension": ".md",
+        "type": "file",
+        "path": "docs/react_hooks.md"
+      },
+      {
+        "name": "setting",
+        "extension": ".md",
+        "type": "file",
+        "path": "docs/setting.md"
+      },
+      {
+        "name": "bun_hono",
+        "extension": ".md",
+        "type": "file",
+        "path": "docs/bun_hono.md"
+      }
+    ]
+  },
+  {
+    "name": "vite",
+    "extension": ".svg",
+    "type": "file",
+    "path": "vite.svg"
+  },
+  {
+    "name": "logo",
+    "extension": ".svg",
+    "type": "file",
+    "path": "logo.svg"
+  },
+  {
+    "name": "images",
+    "type": "directory",
+    "path": "images",
+    "children": []
+  },
+  {
+    "name": "dir_tree",
+    "extension": ".json",
+    "type": "file",
+    "path": "dir_tree.json"
+  }
+]
