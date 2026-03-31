@@ -4,6 +4,13 @@
 <!-- <a href="https://koreactwo.github.io" target="_blank">github pages static web site</a> -->
 <!-- 빌드과정에서 태그 속성이 없어지나보네.  -->
 
+## bun dev 컨테이너에서 
+```
+bun install
+bun dir_tree.ts
+bun run dev
+```
+
 - 컨테이너 연결
 ```
 docker compose up -d
