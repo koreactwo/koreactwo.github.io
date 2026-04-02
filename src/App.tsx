@@ -9,6 +9,7 @@ import Profile from './pages/Profile.tsx';
 import "./App.css";
 import CloudTodo from './pages/CloudTodo.tsx';
 import MarkdownViewer from './pages/MarkdownViewer.tsx';
+import Rect3D from './pages/Rect3D.tsx';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/markdown' element={<MarkdownViewer />} />
         <Route path='*' element={<Home />} />
       </Route>
+      <Route path='/rect3d' element={<Rect3D />} />
     </Routes>
   );
 }

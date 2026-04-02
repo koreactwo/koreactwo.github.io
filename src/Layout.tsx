@@ -193,6 +193,7 @@ export const Layout = () => {
                 <li><MyLink to='/todolist' >Todo List</MyLink></li>
                 <li><MyLink to='/cloudtodo' >Cloud Todo</MyLink></li>
                 <li><MyLink to='/markdown' >Markdown</MyLink></li>
+                <li><MyLink to='/rect3d' >Rect 3D</MyLink></li>
                 <li>
                   <details open>
                     <summary>Parent</summary>
