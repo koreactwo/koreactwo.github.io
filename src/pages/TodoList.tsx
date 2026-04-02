@@ -13,9 +13,10 @@ interface Todo {
   completed: boolean;
 }
 
-interface DynamicProps extends React.HTMLAttributes<HTMLElement> {
-    as? : React.ElementType;
-}
+// interface DynamicProps extends React.HTMLAttributes<HTMLDivElement> {
+//     as? : React.ElementType;
+//     children?: React.ReactNode;
+// }
 
 type todoAction = 
     { type: 'INIT_TODO', payload: Todo[] } | 
@@ -106,7 +107,7 @@ const TodoInput = React.memo(( { dispatch } : dispatchProps ) => {
   );
 });
 
-const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
+const TodoList = () => {
     // const [todos, dispatch] = useReducer(todoReducer, []
     //     ,() => {const saved = localStorage.getItem("my-todo-list");
     //     return saved ? JSON.parse(saved) : [];
@@ -123,7 +124,7 @@ const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
     }, [todos]); // todos가 변경될 때마다 실행
 
     return (
-        <Component {...props}>
+        // <Component {...props}>
         <div className="flex flex-col  h-full min-h-0 ">
             <div className="sticky top-1 z-10 bg-base-100">
             <div><h1 className="text-2xl text-center font-bold m-4 ">할 일 목록</h1></div>
@@ -159,7 +160,7 @@ const TodoList = ({as : Component = 'div',  ...props} : DynamicProps) => {
                 ))}
             </div>
         </div>
-        </Component>
+        // </Component>
     );
 };
 
