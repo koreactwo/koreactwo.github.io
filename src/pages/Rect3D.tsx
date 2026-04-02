@@ -30,7 +30,7 @@ export default function Rect3D() {
             <Plane
               args={[w, h]} // 가로 20m, 세로 20m (약 120평 규모)
               rotation={[-Math.PI / 2, 0, 0]} // 바닥처럼 눕히기 (90도 회전)
-              position={[0, 0, 0]}
+              position={[0, -0.001, 0]}
             >
               <meshStandardMaterial color="lightgreen" /> {/* 어두운 회색 콘크리트 느낌 */}
             </Plane>
@@ -40,7 +40,7 @@ export default function Rect3D() {
 
 
       <div className='h-100 lg:w-100 '>
-        ui
+        ui 
       </div>
 
 
