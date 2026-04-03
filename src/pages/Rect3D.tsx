@@ -3,13 +3,11 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stars, Grid, Plane } from '@react-three/drei'
 
 export default function Rect3D() {
-  // const [w] = useState(10);
-  // const [h] = useState(10);
+  const [w, setW] = useState(100);
+  const [h, setH] = useState(100);
   const [cell, setCell] = useState(10);
 
   const handleCell = (e : React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(e.currentTarget.value);
-    // console.log(e.currentTarget.validity.valid);
     if (e.currentTarget.validity.valid){
       setCell(Number(e.currentTarget.value));
     }
@@ -20,6 +18,8 @@ export default function Rect3D() {
       {/* style={{ width: '100vw', height: '100vh', background: '#111' }} */}
       <div className='flex-1 relative bg-neutral min-w-0 min-h-0'>
         <Canvas
+          shadows 
+          frameloop="demand"  // <--- 이 녀석이 핵심입니다! 항상킬땐 always
           camera={{ position: [10, 10, 10], fov: 50 }} // 카메라 초기 위치와 화각
         >
           {/* 1. 배경 및 보조 도구 */}
@@ -47,7 +47,7 @@ export default function Rect3D() {
 
           {/* 여기에 나중에 <Rack /> 컴포넌트가 들어갈 겁니다 */}
           <Plane
-            args={[cell, cell]} // 척도 개념을 도입해야함 . 
+            args={[cell, h / w * cell]} // 척도 개념을 도입해야함 . 
             rotation={[-Math.PI / 2, 0, 0]} // 바닥처럼 눕히기 (90도 회전)
             position={[0, -0.001, 0]}
           >
@@ -63,22 +63,32 @@ export default function Rect3D() {
         </Canvas>
       </div>
     
-      
+
 
       <div className='h-100 lg:w-100 '>
         <h3 className='text-center'>바닥 설정</h3>
-        <div className='grid grid-cols-2 items-center justify-center px-2 pt-1'>
+        <div className='grid grid-cols-2 items-center justify-center px-2 pt-1 relative'>
           <label className='text-center'>가로 (단위 M) : </label>
-          <input type='number' value={100} className='input'/>
+          <input type='number' onChange={(e)=>{
+            if(e.currentTarget.validity.valid){
+              setW(Number(e.currentTarget.value));
+            }
+          }} className='input validator' min='10' max='10000' step={0.001} defaultValue={100}/>
+          <p className="validator-hint absolute right-6 bottom-0">10~10000 소수점 3자리까지</p>
         </div>
-        <div  className='grid grid-cols-2 items-center justify-center px-2 pt-1'>
+        <div  className='grid grid-cols-2 items-center justify-center px-2 pt-1 relative'>
           <label className='text-center'>세로 (단위 M) : </label>
-          <input type='number' value={100} className='input'/>
+          <input type='number' onChange={(e)=>{
+            if(e.currentTarget.validity.valid){
+              setH(Number(e.currentTarget.value));
+            }
+          }} className='input validator' min='10' max='10000' step={0.001} defaultValue={100}/>
+          <p className="validator-hint absolute right-6 bottom-0">10~10000 소수점 3자리까지</p>
         </div>
-        <div className='grid grid-cols-2 items-center justify-center px-2 pt-1'>
-          <label className='text-center'>비율 (가로기준) : </label>
+        <div className='grid grid-cols-4 items-center justify-center px-2 pt-1  relative'>
+          <label className='text-center col-span-3'>비율 (가로기준) : 1칸 {(w/cell).toFixed(3)}M</label>
           <input type='number' onChange={handleCell} className='input validator' min='10' max='100' step={1} defaultValue={10}/>
-          <p className="validator-hint">Must be between be 10 to 100</p>
+          <p className="validator-hint absolute right-6 bottom-0">10~100</p>
 
         </div>
         
