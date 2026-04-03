@@ -54,6 +54,6 @@ git remote -v
 [remote "origin"]
 	url = git@github.com:koreactwo/koreactwo.github.io.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
-	pushurl = ssh://root@localhost:6022/var/git/koreactwo.git
+	pushurl = ssh://root@192.168.0.15:6022/var/git/koreactwo.git
 	pushurl = git@github.com:koreactwo/koreactwo.github.io.git
 ```
