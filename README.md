@@ -46,7 +46,7 @@ sudo umount /mnt/win
 
 ## git remote 추가
 ```
-git remote set-url --add --push origin ssh://root@localhost:6022/var/git/koreactwo.git
+git remote set-url --add --push origin ssh://root@192.168.0.15:6022/var/git/koreactwo.git
 git remote set-url --add --push origin git@github.com:koreactwo/koreactwo.github.io.git
 git remote -v
 

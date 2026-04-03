@@ -62,8 +62,8 @@ export default function Rect3D() {
           </mesh>
         </Canvas>
       </div>
-
-
+    
+      
 
       <div className='h-100 lg:w-100 '>
         <h3 className='text-center'>바닥 설정</h3>
