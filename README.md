@@ -42,3 +42,18 @@ df -h
 cp -r ~/source/koreactwo.github.io/docs /mnt/win/
 sudo umount /mnt/win
 ```
+
+
+## git remote 추가
+```
+git remote set-url --add --push origin ssh://root@localhost:6022/var/git/koreactwo.git
+git remote set-url --add --push origin git@github.com:koreactwo/koreactwo.github.io.git
+git remote -v
+
+# config 파일에 아래처럼 pushurl 이 생긴다
+[remote "origin"]
+	url = git@github.com:koreactwo/koreactwo.github.io.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+	pushurl = ssh://root@localhost:6022/var/git/koreactwo.git
+	pushurl = git@github.com:koreactwo/koreactwo.github.io.git
+```
