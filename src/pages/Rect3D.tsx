@@ -3,8 +3,8 @@ import { Canvas } from '@react-three/fiber'
 import { OrbitControls, Stars, Grid, Plane } from '@react-three/drei'
 
 export default function Rect3D() {
-  const [w] = useState(10);
-  const [h] = useState(10);
+  // const [w] = useState(10);
+  // const [h] = useState(10);
   const [cell, setCell] = useState(10);
 
   const handleCell = (e : React.ChangeEvent<HTMLInputElement>) => {
